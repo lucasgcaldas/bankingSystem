@@ -1,9 +1,13 @@
 package com.bankingsystem.model;
 
+import com.bankingsystem.controller.AccountController;
+import com.bankingsystem.controller.ExtractAccountController;
+
 import java.math.BigDecimal;
 
 public abstract class Account {
-    
+
+    private Long id;
     private BigDecimal balance;
     private Integer branch;
     private Integer number;
@@ -12,6 +16,11 @@ public abstract class Account {
         this.balance = balance;
         this.branch = branch;
         this.number = number;
+        AccountController accountController = new AccountController();
+        accountController.saveAccount(this);
+    }
+
+    public Account() {
     }
 
     public BigDecimal getBalance() {
@@ -26,17 +35,25 @@ public abstract class Account {
         return number;
     }
 
-    public void deposit(BigDecimal value) {
-        this.balance.add(value);
+    public void setBalance(BigDecimal balance) {
+        this.balance = balance;
     }
 
-    public boolean transferToAccount(BigDecimal value, Account account){
+    public void receivedTransfer(BigDecimal value) {
+        this.setBalance(this.balance.add(value));
+    }
+
+    public void sendTransfer(BigDecimal value, Account destiny){
         if (this.getBalance().compareTo(value) >= 0){
-            this.getBalance().subtract(value);
-            account.deposit(value);
-            return true;
+            this.setBalance(this.balance.subtract(value));
+            destiny.receivedTransfer(value);
+
+            ExtractAccountController eAC = new ExtractAccountController();
+            eAC.setOrigin(this);
+            eAC.setDestiny(destiny);
+            eAC.setValue(value);
+            eAC.saveTransfer();
         }
-        throw new IllegalArgumentException();
     }
 
     @Override

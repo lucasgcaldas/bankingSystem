@@ -5,11 +5,15 @@ public class User {
     private Long id;
     private String name;
     private String cpf;
+    private Account account;
 
-    public User(Long id, String name, String cpf) {
-        this.id = id;
+    public User(String name, String cpf, Account account) {
         this.name = name;
         this.cpf = cpf;
+        this.account = account;
+    }
+
+    public User() {
     }
 
     public Long getId() {
@@ -22,6 +26,22 @@ public class User {
 
     public String getCpf() {
         return cpf;
+    }
+
+    public Account getAccount() {
+        return account;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setCpf(String cpf) {
+        this.cpf = cpf;
+    }
+
+    public void setAccount(Account account) {
+        this.account = account;
     }
 
     @Override
