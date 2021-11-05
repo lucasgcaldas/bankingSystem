@@ -1,58 +1,81 @@
 package com.bankingsystem.util;
 
-import java.sql.*;
+import totalcross.db.sqlite.SQLiteUtil;
+import totalcross.sql.Statement;
+import totalcross.sys.Settings;
+
+import java.sql.SQLException;
 
 public class SQLiteConnection {
 
-    private Connection connection;
+    private static SQLiteConnection instance = null;
+    public SQLiteUtil util;
 
-    public boolean connect() {
+    public SQLiteConnection() {
         try {
-            this.connection = DriverManager.getConnection("jdbc:sqlite:D:/ESTAGIO/TotalCross/November/bankingSystem/db/bankingdatabase.db");
+            util = new SQLiteUtil(Settings.appPath, "db/banking.db");
+            createTableAccount();
+            createTableTransfer();
+            createTableUser();
             System.out.println("Connected");
-
         } catch (SQLException e) {
             System.err.println(e.getMessage());
-            return false;
-        }
-
-        return true;
-    }
-
-    public boolean disconnect() {
-        try {
-            if (!this.connection.isClosed()) {
-                this.connection.close();
-            }
-            System.out.println("desconectado");
-        } catch (SQLException e) {
-
-            System.err.println(e.getMessage());
-            return false;
-        }
-        return true;
-    }
-
-    public Statement createStatement() {
-        try {
-            return this.connection.createStatement();
-        } catch (SQLException e) {
-            return null;
         }
     }
 
-    public PreparedStatement createPreparedStatement(String pSQL, int RETURN_GENERATED_KEYS) {
+    public static SQLiteConnection getInstance() {
+        if (instance == null) {
+            instance = new SQLiteConnection();
+        }
+        return instance;
+    }
+
+    public void createTableAccount() {
         try {
-            System.out.println("Executando");
-            return connection.prepareStatement(pSQL, RETURN_GENERATED_KEYS);
+            Statement st = util.con().createStatement();
+            st.execute("CREATE TABLE IF NOT EXISTS tb_account(" +
+                    "kind_account STRING  NOT NULL," +
+                    "balance DOUBLE," +
+                    "branch INTEGER NOT NULL," +
+                    "number INTEGER NOT NULL" +
+                    ");");
+            st.close();
         } catch (SQLException e) {
             e.printStackTrace();
             System.err.println(e.getMessage());
-            return null;
         }
     }
 
-    public Connection getConnection() {
-        return this.connection;
+    public void createTableTransfer() {
+        try {
+            Statement st = util.con().createStatement();
+            st.execute("CREATE TABLE IF NOT EXISTS tb_transfer(" +
+                    "origin STRING  NOT NULL," +
+                    "value DOUBLE  NOT NULL," +
+                    "destiny STRING  NOT NULL," +
+                    "new_origin_balance DECIMAL NOT NULL," +
+                    "new_received_balance DECIMAL NOT NULL" +
+                    ");");
+            st.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            System.err.println(e.getMessage());
+        }
+    }
+
+    public void createTableUser() {
+        try {
+            Statement st = util.con().createStatement();
+            st.execute("CREATE TABLE IF NOT EXISTS tb_user(" +
+                    "pk_id INTEGER PRIMARY KEY," +
+                    "name STRING  NOT NULL," +
+                    "cpf STRING  NOT NULL," +
+                    "account INTEGER REFERENCES tb_account (number)" +
+                    ");");
+            st.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            System.err.println(e.getMessage());
+        }
     }
 }

@@ -2,33 +2,30 @@ package com.bankingsystem.controller;
 
 import com.bankingsystem.model.User;
 import com.bankingsystem.util.SQLiteConnection;
+import totalcross.sql.PreparedStatement;
 
-import java.sql.PreparedStatement;
 import java.sql.SQLException;
-import java.sql.Statement;
 
 public class UserController extends SQLiteConnection {
 
     public boolean saveUser(User user) {
-        connect();
 
-        String sql = "INSERT INTO tb_user(" +
-                "name, " +
-                "cpf, " +
-                "account) " +
-                "VALUES (?, ?, ?)";
-        PreparedStatement preparedStatement = createPreparedStatement(sql, Statement.RETURN_GENERATED_KEYS);
+        boolean success = true;
+
         try {
-            preparedStatement.setString(1, user.getName());
-            preparedStatement.setString(2, user.getCpf());
-            preparedStatement.setInt(3, user.getAccount().getNumber());
+            String sql = "INSERT INTO tb_user VALUES (?, ?, ?, ?)";
+            PreparedStatement preparedStatement = util.con().prepareStatement(sql);
+
+            preparedStatement.setString(2, user.getName());
+            preparedStatement.setString(3, user.getCpf());
+            preparedStatement.setInt(4, user.getAccount().getNumber());
+
             preparedStatement.executeUpdate();
+            preparedStatement.close();
         } catch (SQLException e) {
             e.printStackTrace();
-            return false;
+            success = false;
         }
-
-        disconnect();
-        return true;
+        return success;
     }
 }

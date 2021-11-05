@@ -1,6 +1,6 @@
 package com.bankingsystem.model;
 
-import java.math.BigDecimal;
+import totalcross.util.BigDecimal;
 
 public class SavingsAccount extends Account {
 

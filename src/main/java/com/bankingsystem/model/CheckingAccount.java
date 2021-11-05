@@ -1,18 +1,18 @@
 package com.bankingsystem.model;
 
-import java.math.BigDecimal;
+import totalcross.sys.InvalidNumberException;
+import totalcross.util.BigDecimal;
 
 public class CheckingAccount extends Account {
 
     private BigDecimal rate = new BigDecimal("5.0");
 
-    public CheckingAccount(BigDecimal balance, Integer branch, Integer number){
+    public CheckingAccount(BigDecimal balance, Integer branch, Integer number) throws InvalidNumberException {
         super(balance, branch, number);
     }
 
-    public CheckingAccount() {
+    public CheckingAccount() throws InvalidNumberException {
     }
-
 
 //    @Override
 //    public BigDecimal sendTransfer(BigDecimal value, Account account){

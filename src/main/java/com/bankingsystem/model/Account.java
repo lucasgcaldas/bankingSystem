@@ -2,8 +2,7 @@ package com.bankingsystem.model;
 
 import com.bankingsystem.controller.AccountController;
 import com.bankingsystem.controller.ExtractAccountController;
-
-import java.math.BigDecimal;
+import totalcross.util.BigDecimal;
 
 public abstract class Account {
 
@@ -23,7 +22,7 @@ public abstract class Account {
     public Account() {
     }
 
-    public BigDecimal getBalance() {
+    public totalcross.util.BigDecimal getBalance() {
         return balance;
     }
 

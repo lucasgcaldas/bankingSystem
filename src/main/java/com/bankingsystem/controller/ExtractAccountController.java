@@ -2,11 +2,10 @@ package com.bankingsystem.controller;
 
 import com.bankingsystem.model.Account;
 import com.bankingsystem.util.SQLiteConnection;
+import totalcross.sql.PreparedStatement;
+import totalcross.util.BigDecimal;
 
-import java.math.BigDecimal;
-import java.sql.PreparedStatement;
 import java.sql.SQLException;
-import java.sql.Statement;
 
 public class ExtractAccountController extends SQLiteConnection {
 
@@ -38,27 +37,26 @@ public class ExtractAccountController extends SQLiteConnection {
         this.value = value;
     }
 
-    public void saveTransfer() {
-        connect();
-        String sql = "INSERT INTO tb_transfer(" +
-                "origin, " +
-                "value, " +
-                "destiny, " +
-                "new_origin_balance, " +
-                "new_received_balance) " +
-                "VALUES (?, ?, ?, ?, ?)";
-        PreparedStatement preparedStatement = createPreparedStatement(sql, Statement.RETURN_GENERATED_KEYS);
+    public boolean saveTransfer() {
+
+        boolean success = true;
+
         try {
+            String sql = "INSERT INTO tb_transfer VALUES (?, ?, ?, ?, ?)";
+            PreparedStatement preparedStatement = util.con().prepareStatement(sql);
+
             preparedStatement.setString(1, this.origin.getClass().getName().substring(24));
             preparedStatement.setBigDecimal(2, this.value);
             preparedStatement.setString(3, this.destiny.getClass().getName().substring(24));
             preparedStatement.setBigDecimal(4, this.origin.getBalance());
             preparedStatement.setBigDecimal(5, this.destiny.getBalance());
+
             preparedStatement.executeUpdate();
+            preparedStatement.close();
         } catch (SQLException e) {
             e.printStackTrace();
-            return;
+            success = false;
         }
-        disconnect();
+        return success;
     }
 }
