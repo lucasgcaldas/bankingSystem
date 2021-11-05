@@ -13,13 +13,13 @@ public class AccountController extends SQLiteConnection {
         boolean success = true;
 
         try {
-            String sql = "INSERT INTO tb_account VALUES (?, ?, ?, ?)";
+            String sql = "INSERT INTO tb_account VALUES (?, ?, ?, ?, ?)";
             PreparedStatement preparedStatement = util.con().prepareStatement(sql);
 
-            preparedStatement.setString(1, account.getClass().getName().substring(24));
-            preparedStatement.setBigDecimal(2, account.getBalance());
-            preparedStatement.setInt(3, account.getBranch());
-            preparedStatement.setInt(4, account.getNumber());
+            preparedStatement.setString(2, account.getClass().getName().substring(24));
+            preparedStatement.setBigDecimal(3, account.getBalance());
+            preparedStatement.setInt(4, account.getBranch());
+            preparedStatement.setInt(5, account.getNumber());
 
             preparedStatement.executeUpdate();
             preparedStatement.close();

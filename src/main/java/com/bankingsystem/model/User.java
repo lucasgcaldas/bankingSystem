@@ -1,5 +1,7 @@
 package com.bankingsystem.model;
 
+import com.bankingsystem.controller.UserController;
+
 public class User {
 
     private Long id;
@@ -11,6 +13,15 @@ public class User {
         this.name = name;
         this.cpf = cpf;
         this.account = account;
+    }
+
+    // Constructor to start the application
+    public User(Account account){
+        this.name = "Lucas Gomes Caldas";
+        this.cpf = "123.456.789-10";
+        this.account = account;
+        UserController uc = new UserController();
+        uc.saveUser(this);
     }
 
     public User() {

@@ -1,5 +1,7 @@
 package com.bankingsystem.model;
 
+import com.bankingsystem.controller.AccountController;
+import totalcross.sys.InvalidNumberException;
 import totalcross.util.BigDecimal;
 
 public class SavingsAccount extends Account {
@@ -8,6 +10,9 @@ public class SavingsAccount extends Account {
         super(balance, branch, number);
     }
 
-    public SavingsAccount() {
+    public SavingsAccount() throws InvalidNumberException {
+        super(new BigDecimal("30000.00"), 2222, 56789);
+        AccountController ac = new AccountController();
+        ac.saveAccount(this);
     }
 }

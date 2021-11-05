@@ -1,6 +1,7 @@
 package com.bankingsystem.util;
 
 import totalcross.db.sqlite.SQLiteUtil;
+import totalcross.sql.PreparedStatement;
 import totalcross.sql.Statement;
 import totalcross.sys.Settings;
 
@@ -34,10 +35,11 @@ public class SQLiteConnection {
         try {
             Statement st = util.con().createStatement();
             st.execute("CREATE TABLE IF NOT EXISTS tb_account(" +
+                    "pk_id INTEGER PRIMARY KEY," +
                     "kind_account STRING  NOT NULL," +
                     "balance DOUBLE," +
                     "branch INTEGER NOT NULL," +
-                    "number INTEGER NOT NULL" +
+                    "number INTEGER NOT NULL UNIQUE" +
                     ");");
             st.close();
         } catch (SQLException e) {

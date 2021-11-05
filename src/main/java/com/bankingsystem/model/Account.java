@@ -22,10 +22,6 @@ public abstract class Account {
     public Account() {
     }
 
-    public totalcross.util.BigDecimal getBalance() {
-        return balance;
-    }
-
     public Integer getBranch() {
         return branch;
     }
@@ -38,12 +34,16 @@ public abstract class Account {
         this.balance = balance;
     }
 
+    public BigDecimal getBalance() {
+        return this.balance;
+    }
+
     public void receivedTransfer(BigDecimal value) {
         this.setBalance(this.balance.add(value));
     }
 
-    public void sendTransfer(BigDecimal value, Account destiny){
-        if (this.getBalance().compareTo(value) >= 0){
+    public Account sendTransfer(BigDecimal value, Account destiny) {
+        if (this.getBalance().compareTo(value) >= 0) {
             this.setBalance(this.balance.subtract(value));
             destiny.receivedTransfer(value);
 
@@ -53,6 +53,7 @@ public abstract class Account {
             eAC.setValue(value);
             eAC.saveTransfer();
         }
+        return this;
     }
 
     @Override

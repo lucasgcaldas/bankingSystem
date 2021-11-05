@@ -38,6 +38,7 @@ public class ExtractAccountController extends SQLiteConnection {
     }
 
     public boolean saveTransfer() {
+        updateTableAccount();
 
         boolean success = true;
 
@@ -58,5 +59,30 @@ public class ExtractAccountController extends SQLiteConnection {
             success = false;
         }
         return success;
+    }
+
+    public void updateTableAccount(){
+        try {
+            String sql = "UPDATE tb_account" +
+                    " SET " +
+                    " balance = ?" +
+                    " WHERE pk_id = ?";
+            PreparedStatement preparedStatement = util.con().prepareStatement(sql);
+
+            preparedStatement.setBigDecimal(1, this.origin.getBalance());
+            preparedStatement.setInt(2, 1);
+
+            preparedStatement.executeUpdate();
+
+            preparedStatement.setBigDecimal(1, this.destiny.getBalance());
+            preparedStatement.setInt(2, 2);
+
+            preparedStatement.executeUpdate();
+
+            preparedStatement.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            System.err.println(e.getMessage());
+        }
     }
 }

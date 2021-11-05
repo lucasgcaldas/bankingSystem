@@ -1,8 +1,12 @@
 package com.bankingsystem.main;
 
+import com.bankingsystem.model.Account;
+import com.bankingsystem.model.CheckingAccount;
+import com.bankingsystem.model.SavingsAccount;
 import com.bankingsystem.util.Colors;
 import com.bankingsystem.util.SQLiteConnection;
 import com.bankingsystem.view.Initial;
+import totalcross.sys.InvalidNumberException;
 import totalcross.sys.Settings;
 import totalcross.ui.*;
 import totalcross.ui.dialog.MessageBox;
@@ -17,7 +21,8 @@ public class Main extends MainWindow {
     SideMenuContainer sideMenu;
     private Button btnImage1;
     private Button btnImage2;
-
+    public static Account origin;
+    public static Account destiny;
 
     public Main() {
         super("TotalCross Showcase", NO_BORDER);
@@ -34,7 +39,16 @@ public class Main extends MainWindow {
 
             MainWindow.getMainWindow().addTimer(100);
 
-            SideMenuContainer.Item home = new SideMenuContainer.Item("TotalCross", MaterialIcons._HOME, Color.BLACK, false, Initial::new);
+            SideMenuContainer.Item home = new SideMenuContainer.Item("TotalCross", MaterialIcons._HOME, Color.BLACK, false, () -> {
+                try {
+                    origin = new CheckingAccount();
+                    destiny = new SavingsAccount();
+                    return new Initial();
+                } catch (InvalidNumberException e) {
+                    e.printStackTrace();
+                }
+                return null;
+            });
             home.setFont(Font.getFont("Roboto", true, 19));
             SideMenuContainer.Sub uiGroup = createUISubGroup();
 

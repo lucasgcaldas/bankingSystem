@@ -1,6 +1,8 @@
 package com.bankingsystem.view;
 
+import com.bankingsystem.main.Main;
 import com.bankingsystem.util.Colors;
+import totalcross.sys.InvalidNumberException;
 import totalcross.ui.*;
 import totalcross.ui.dialog.MessageBox;
 import totalcross.ui.event.ControlEvent;
@@ -8,30 +10,27 @@ import totalcross.ui.event.Event;
 import totalcross.ui.font.Font;
 import totalcross.ui.gfx.Color;
 import totalcross.ui.image.Image;
+import totalcross.util.BigDecimal;
 import totalcross.util.UnitsConverter;
+
+import java.util.Objects;
 
 public class Transfer extends Window {
 
-    private Container bar;
-    private Container cont1;
-    private Container cont2;
-    private Button btnImage;
-    private Edit ageEdit;
-    private Edit contEdit;
-    private Edit valEdit;
-    private Label destLabel;
-    private Label wValueLabel;
-    private Label ageLabel;
-    private Label contLabel;
-    private Label valLabel;
-    private Label dinLabel;
-    private Button btnCont;
+    private Container bar, cont1, cont2;
+    private Button btnImage, btnCont;
+    private Edit ageEdit, contEdit, valEdit;
+    private Label destLabel,wValueLabel, ageLabel, contLabel, valLabel, dinLabel;
+    private Integer agencia, conta;
+    private BigDecimal valor;
 
     private int GAP = UnitsConverter.toPixels(DP + 20);
 
-    public Transfer() {
-        super();
-    }
+//    public Transfer(Account origin, Account destiny) throws InvalidNumberException {
+//        super();
+//        this.origin = origin;
+//        this.destiny = destiny;
+//    }
 
     public void onPopup() {
         setBackForeColors(Colors.BACKGROUND, Colors.ON_BACKGROUND);
@@ -140,8 +139,30 @@ public class Transfer extends Window {
     public void onEvent(Event event) {
         if (event.type == ControlEvent.PRESSED) {
             if (event.target == btnImage) {
-                Transfer transfer = new Transfer();
+                Transfer transfer = null;
+                //                    transfer = new Transfer(Main.account, this.destiny);
+                transfer = new Transfer();
+                assert transfer != null;
                 transfer.unpop();
+            }
+        }
+        if (event.type == ControlEvent.PRESSED) {
+            if (event.target == btnCont) {
+                try {
+                    agencia = Integer.parseInt(ageEdit.getText());
+                    conta = Integer.parseInt(contEdit.getText());
+                    valor = BigDecimal.valueOf(Double.parseDouble(valEdit.getText()));
+                    if (Objects.equals(agencia, Main.destiny.getBranch()) && Objects.equals(conta, Main.destiny.getNumber())){
+                        Main.origin.sendTransfer(valor, Main.destiny);
+                        Initial.lSaldo.setText("R$ " + Main.origin.getBalance().toString());
+                        Initial.lSaldo.repaintNow();
+//                        Transfer transfer = new Transfer(Main.origin.sendTransfer(valor, Main.destiny), Main.destiny);
+                        Transfer transfer = new Transfer();
+                        transfer.unpop();
+                    }
+                } catch (InvalidNumberException e) {
+                    e.printStackTrace();
+                }
             }
         }
     }

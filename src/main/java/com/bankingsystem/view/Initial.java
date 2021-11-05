@@ -1,6 +1,10 @@
 package com.bankingsystem.view;
 
+import com.bankingsystem.main.Main;
+import com.bankingsystem.model.Account;
+import com.bankingsystem.model.CheckingAccount;
 import com.bankingsystem.util.Colors;
+import totalcross.sys.InvalidNumberException;
 import totalcross.ui.*;
 import totalcross.ui.event.ControlEvent;
 import totalcross.ui.event.Event;
@@ -10,20 +14,17 @@ import totalcross.util.UnitsConverter;
 
 public class Initial extends BaseScreen {
 
-    private Container bar;
-    private Container bar2;
-    private Container bar3;
-    private Button btnServices;
-    private Button btnTransSav;
-    private Button btnTransChe;
-    private Button btnExtract;
-    private Button btnPix;
-    private Button btnComp;
-    private Button btnRecar;
+    private Container bar, bar2, bar3;
+    private Button btnServices, btnTransSav, btnTransChe;
+    private Button btnExtract, btnPix, btnComp, btnRecar;
+    private Account origin, destiny;
+    public static Label lSaldo;
 
-    public Initial() {
-        super();
-    }
+//    public Initial(Account origin, Account destiny)  {
+//        super();
+//        this.origin = origin;
+//        this.destiny = destiny;
+//    }
 
     @Override
     public void onContent(ScrollContainer content) {
@@ -39,14 +40,13 @@ public class Initial extends BaseScreen {
             bar.add(mSD, LEFT + 16, TOP, PARENTSIZE + 50, PREFERRED);
             bar.resizeHeight();
 
-
             bar2 = new Container();
             bar2.setBackColor(Colors.PRIMARY);
             add(bar2, LEFT, AFTER, PARENTSIZE, DP + 45);
 
-            Label cash = new Label("R$ 2.000,00", LEFT);
-            cash.setFont(Font.getFont("Roboto", true, 17));
-            bar2.add(cash, LEFT + 16, AFTER, PARENTSIZE + 50, PREFERRED);
+            lSaldo = new Label("R$ " + Main.origin.getBalance().toString(), LEFT);
+            lSaldo.setFont(Font.getFont("Roboto", true, 17));
+            bar2.add(lSaldo, LEFT + 16, AFTER, PARENTSIZE + 50, PREFERRED);
 //            bar2.resizeHeight();
 
             bar3 = new Container();
@@ -103,7 +103,9 @@ public class Initial extends BaseScreen {
     public void onEvent(Event event) {
         if (event.type == ControlEvent.PRESSED) {
             if (event.target == btnTransSav) {
-                Transfer transfer = new Transfer();
+                Transfer transfer = null;
+//                transfer = new Transfer(Main.account);
+                transfer = new Transfer();
                 transfer.popup();
             }
         }
