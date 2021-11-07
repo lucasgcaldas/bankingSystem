@@ -13,6 +13,6 @@ public class SavingsAccount extends Account {
     public SavingsAccount() throws InvalidNumberException {
         super(new BigDecimal("30000.00"), 2222, 56789);
         AccountController ac = new AccountController();
-        ac.saveAccount(this);
+        ac.checkIfExistAccount(this);
     }
 }

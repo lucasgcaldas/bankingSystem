@@ -1,5 +1,6 @@
 package com.bankingsystem.main;
 
+import com.bankingsystem.controller.AccountController;
 import com.bankingsystem.model.Account;
 import com.bankingsystem.model.CheckingAccount;
 import com.bankingsystem.model.SavingsAccount;
@@ -23,6 +24,7 @@ public class Main extends MainWindow {
     private Button btnImage2;
     public static Account origin;
     public static Account destiny;
+    private AccountController ac = new AccountController();;
 
     public Main() {
         super("TotalCross Showcase", NO_BORDER);
@@ -36,13 +38,14 @@ public class Main extends MainWindow {
     public void initUI() {
         try {
             SQLiteConnection.getInstance();
-
             MainWindow.getMainWindow().addTimer(100);
 
             SideMenuContainer.Item home = new SideMenuContainer.Item("TotalCross", MaterialIcons._HOME, Color.BLACK, false, () -> {
                 try {
                     origin = new CheckingAccount();
+
                     destiny = new SavingsAccount();
+
                     return new Initial();
                 } catch (InvalidNumberException e) {
                     e.printStackTrace();

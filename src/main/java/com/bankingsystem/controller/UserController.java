@@ -8,10 +8,7 @@ import java.sql.SQLException;
 
 public class UserController extends SQLiteConnection {
 
-    public boolean saveUser(User user) {
-
-        boolean success = true;
-
+    public void saveUser(User user) {
         try {
             String sql = "INSERT INTO tb_user VALUES (?, ?, ?, ?)";
             PreparedStatement preparedStatement = util.con().prepareStatement(sql);
@@ -24,8 +21,6 @@ public class UserController extends SQLiteConnection {
             preparedStatement.close();
         } catch (SQLException e) {
             e.printStackTrace();
-            success = false;
         }
-        return success;
     }
 }

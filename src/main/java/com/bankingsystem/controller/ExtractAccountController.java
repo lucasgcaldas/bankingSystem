@@ -37,11 +37,8 @@ public class ExtractAccountController extends SQLiteConnection {
         this.value = value;
     }
 
-    public boolean saveTransfer() {
+    public void saveTransfer() {
         updateTableAccount();
-
-        boolean success = true;
-
         try {
             String sql = "INSERT INTO tb_transfer VALUES (?, ?, ?, ?, ?)";
             PreparedStatement preparedStatement = util.con().prepareStatement(sql);
@@ -56,9 +53,7 @@ public class ExtractAccountController extends SQLiteConnection {
             preparedStatement.close();
         } catch (SQLException e) {
             e.printStackTrace();
-            success = false;
         }
-        return success;
     }
 
     public void updateTableAccount(){
@@ -66,16 +61,16 @@ public class ExtractAccountController extends SQLiteConnection {
             String sql = "UPDATE tb_account" +
                     " SET " +
                     " balance = ?" +
-                    " WHERE pk_id = ?";
+                    " WHERE pk_number = ?";
             PreparedStatement preparedStatement = util.con().prepareStatement(sql);
 
             preparedStatement.setBigDecimal(1, this.origin.getBalance());
-            preparedStatement.setInt(2, 1);
+            preparedStatement.setInt(2, this.origin.getNumber());
 
             preparedStatement.executeUpdate();
 
             preparedStatement.setBigDecimal(1, this.destiny.getBalance());
-            preparedStatement.setInt(2, 2);
+            preparedStatement.setInt(2, this.destiny.getNumber());
 
             preparedStatement.executeUpdate();
 

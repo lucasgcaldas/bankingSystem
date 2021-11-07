@@ -1,7 +1,6 @@
 package com.bankingsystem.util;
 
 import totalcross.db.sqlite.SQLiteUtil;
-import totalcross.sql.PreparedStatement;
 import totalcross.sql.Statement;
 import totalcross.sys.Settings;
 
@@ -20,7 +19,7 @@ public class SQLiteConnection {
             createTableUser();
             System.out.println("Connected");
         } catch (SQLException e) {
-            System.err.println(e.getMessage());
+            e.getMessage();
         }
     }
 
@@ -35,16 +34,14 @@ public class SQLiteConnection {
         try {
             Statement st = util.con().createStatement();
             st.execute("CREATE TABLE IF NOT EXISTS tb_account(" +
-                    "pk_id INTEGER PRIMARY KEY," +
                     "kind_account STRING  NOT NULL," +
                     "balance DOUBLE," +
                     "branch INTEGER NOT NULL," +
-                    "number INTEGER NOT NULL UNIQUE" +
+                    "pk_number INTEGER PRIMARY KEY NOT NULL" +
                     ");");
             st.close();
         } catch (SQLException e) {
             e.printStackTrace();
-            System.err.println(e.getMessage());
         }
     }
 
@@ -61,7 +58,6 @@ public class SQLiteConnection {
             st.close();
         } catch (SQLException e) {
             e.printStackTrace();
-            System.err.println(e.getMessage());
         }
     }
 
@@ -77,7 +73,6 @@ public class SQLiteConnection {
             st.close();
         } catch (SQLException e) {
             e.printStackTrace();
-            System.err.println(e.getMessage());
         }
     }
 }

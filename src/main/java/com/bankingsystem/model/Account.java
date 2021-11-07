@@ -15,8 +15,6 @@ public abstract class Account {
         this.balance = balance;
         this.branch = branch;
         this.number = number;
-        AccountController accountController = new AccountController();
-        accountController.saveAccount(this);
     }
 
     public Account() {
@@ -30,12 +28,20 @@ public abstract class Account {
         return number;
     }
 
+    public BigDecimal getBalance() {
+        return this.balance;
+    }
+
     public void setBalance(BigDecimal balance) {
         this.balance = balance;
     }
 
-    public BigDecimal getBalance() {
-        return this.balance;
+    public void setBranch(Integer branch) {
+        this.branch = branch;
+    }
+
+    public void setNumber(Integer number) {
+        this.number = number;
     }
 
     public void receivedTransfer(BigDecimal value) {
