@@ -6,13 +6,14 @@ import totalcross.util.BigDecimal;
 
 public class CheckingAccount extends Account {
 
+    private AccountController ac = new AccountController();
+
     public CheckingAccount(BigDecimal balance, Integer branch, Integer number) throws InvalidNumberException {
         super(balance, branch, number);
+        ac.checkIfExistAccount(this);
     }
 
-    public CheckingAccount() throws InvalidNumberException {
-        super(new BigDecimal("15000.00"), 1111, 12345);
-        AccountController ac = new AccountController();
-        ac.checkIfExistAccount(this);
+    public CheckingAccount() {
+
     }
 }

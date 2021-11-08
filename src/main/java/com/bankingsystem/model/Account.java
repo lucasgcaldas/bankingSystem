@@ -1,6 +1,5 @@
 package com.bankingsystem.model;
 
-import com.bankingsystem.controller.AccountController;
 import com.bankingsystem.controller.ExtractAccountController;
 import totalcross.util.BigDecimal;
 
@@ -48,7 +47,7 @@ public abstract class Account {
         this.setBalance(this.balance.add(value));
     }
 
-    public Account sendTransfer(String kindTransfer, BigDecimal value, Account destiny) {
+    public void sendTransfer(String kindTransfer, BigDecimal value, Account destiny) {
         if (this.getBalance().compareTo(value) >= 0) {
             this.setBalance(this.balance.subtract(value));
             destiny.receivedTransfer(value);
@@ -59,7 +58,6 @@ public abstract class Account {
             eAC.setValue(value);
             eAC.saveTransfer(kindTransfer);
         }
-        return this;
     }
 
     @Override

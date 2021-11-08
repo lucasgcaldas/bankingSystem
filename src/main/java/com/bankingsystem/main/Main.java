@@ -15,6 +15,7 @@ import totalcross.ui.font.Font;
 import totalcross.ui.gfx.Color;
 import totalcross.ui.icon.MaterialIcons;
 import totalcross.ui.image.Image;
+import totalcross.util.BigDecimal;
 import totalcross.util.UnitsConverter;
 
 public class Main extends MainWindow {
@@ -24,6 +25,7 @@ public class Main extends MainWindow {
     private Button btnImage2;
     public static Account origin;
     public static Account destiny;
+    public static Account destiny2;
 
     public Main() {
         super("TotalCross Showcase", NO_BORDER);
@@ -41,9 +43,10 @@ public class Main extends MainWindow {
 
             SideMenuContainer.Item home = new SideMenuContainer.Item("TotalCross", MaterialIcons._HOME, Color.BLACK, false, () -> {
                 try {
-                    origin = new CheckingAccount();
+                    origin = new CheckingAccount(new BigDecimal("15000.00"), 1111, 12345);
 
-                    destiny = new SavingsAccount();
+                    destiny = new SavingsAccount(new BigDecimal("30000.00"), 2222, 56789);
+                    destiny2 = new CheckingAccount(new BigDecimal("75000.00"), 3333, 10111);
 
                     return new Initial();
                 } catch (InvalidNumberException e) {
@@ -61,7 +64,7 @@ public class Main extends MainWindow {
             sideMenu.topMenu.header = new Container() {
                 @Override
                 public void initUI() {
-                    setBackColor(Colors.SECONDARY);
+                    setBackColor(Colors.PRIMARY);
 
                     Label title = new Label("Menu", LEFT, Color.WHITE, false);
                     title.setFont(Font.getFont("Lato Bold", false, this.getFont().size + 5));

@@ -1,6 +1,8 @@
 package com.bankingsystem.view;
 
+import com.bankingsystem.controller.AccountController;
 import com.bankingsystem.main.Main;
+import com.bankingsystem.model.Account;
 import com.bankingsystem.util.Colors;
 import totalcross.sys.InvalidNumberException;
 import totalcross.ui.*;
@@ -13,9 +15,7 @@ import totalcross.ui.image.Image;
 import totalcross.util.BigDecimal;
 import totalcross.util.UnitsConverter;
 
-import java.util.Objects;
-
-public class Transfer extends Window {
+public class TransferSav extends Window {
 
     private Container bar, cont1, cont2;
     private Button btnImage, btnCont;
@@ -24,19 +24,16 @@ public class Transfer extends Window {
     private Integer agencia, conta;
     private BigDecimal valor;
     private String kindTransfer;
+    private AccountController aC = new AccountController();
+    private Account account;
+    private MessageBox mb;
 
     private int GAP = UnitsConverter.toPixels(DP + 20);
 
-//    public Transfer(Account origin, Account destiny) throws InvalidNumberException {
-//        super();
-//        this.origin = origin;
-//        this.destiny = destiny;
-//    }
-
-    public Transfer() {
+    public TransferSav() {
     }
 
-    public Transfer(String kindTransfer) {
+    public TransferSav(String kindTransfer) {
         this.kindTransfer = kindTransfer;
     }
 
@@ -61,7 +58,6 @@ public class Transfer extends Window {
             bar.resizeHeight();
 
             ageEdit = new Edit();
-//            ageEdit.caption = "Agência";
             ageEdit.setMode(Edit.CURRENCY);
             ageEdit.setKeyboard(Edit.KBD_NUMERIC);
             ageEdit.setBackForeColors(Color.DARK, Color.BLACK);
@@ -72,7 +68,6 @@ public class Transfer extends Window {
             ageLabel.setForeColor(Color.DARK);
 
             contEdit = new Edit();
-//            contEdit.caption = "Conta";
             contEdit.setMode(Edit.CURRENCY);
             contEdit.setKeyboard(Edit.KBD_NUMERIC);
             contEdit.setBackForeColors(Color.DARK, Color.BLACK);
@@ -83,7 +78,6 @@ public class Transfer extends Window {
             contLabel.setForeColor(Color.DARK);
 
             valEdit = new Edit();
-//            valEdit.caption = "Valor";
             valEdit.setMode(Edit.CURRENCY);
             valEdit.setKeyboard(Edit.KBD_NUMERIC);
             valEdit.setBackForeColors(Color.DARK, Color.BLACK);
@@ -136,7 +130,6 @@ public class Transfer extends Window {
             btnCont.setFont(Font.getFont("Roboto", true, 19));
             btnCont.setBackForeColors(Colors.PRIMARY, Color.WHITE);
             btnCont.setBorder(BORDER_ROUNDED);
-//            btnCont.roundBorderFactor = 20;
 
             add(btnCont, CENTER, BOTTOM - 21, 252, 50);
         } catch (Exception e) {
@@ -147,11 +140,8 @@ public class Transfer extends Window {
     public void onEvent(Event event) {
         if (event.type == ControlEvent.PRESSED) {
             if (event.target == btnImage) {
-                Transfer transfer = null;
-                //                    transfer = new Transfer(Main.account, this.destiny);
-                transfer = new Transfer();
-                assert transfer != null;
-                transfer.unpop();
+                TransferSav transferSav = new TransferSav();
+                transferSav.unpop();
             }
         }
         if (event.type == ControlEvent.PRESSED) {
@@ -160,16 +150,40 @@ public class Transfer extends Window {
                     agencia = Integer.parseInt(ageEdit.getText());
                     conta = Integer.parseInt(contEdit.getText());
                     valor = BigDecimal.valueOf(Double.parseDouble(valEdit.getText()));
-                    if (Objects.equals(agencia, Main.destiny.getBranch()) && Objects.equals(conta, Main.destiny.getNumber())) {
-                        Main.origin.sendTransfer(kindTransfer, valor, Main.destiny);
-                        Initial.lSaldo.setText("R$ " + Main.origin.getBalance().toString());
-                        Initial.lSaldo.repaintNow();
-//                        Transfer transfer = new Transfer(Main.origin.sendTransfer(valor, Main.destiny), Main.destiny);
-                        Transfer transfer = new Transfer();
-                        transfer.unpop();
+                    account = aC.checkIfExistAccountToTransfer(agencia, conta, kindTransfer);
+
+                    if (Main.origin.getBalance().compareTo(valor) >= 0) {
+                        if (account.getClass().getName().substring(24).equals("SavingsAccount")) {
+                            Main.origin.sendTransfer(kindTransfer, valor, account);
+                            Initial.lSaldo.setText("R$ " + Main.origin.getBalance().toString());
+                            Initial.lSaldo.repaintNow();
+                            TransferSav transferSav = new TransferSav();
+                            transferSav.unpop();
+                        } else {
+                            throw new InvalidNumberException();
+                        }
+                    } else {
+                        throw new NumberFormatException();
                     }
+
+                } catch (NullPointerException e) {
+                    String message = "Tente inserir corretamente a conta poupança";
+                    mb = new MessageBox("Conta inexistente!", message, new String[]{"Ok!"});
+                    mb.setRect(CENTER, CENTER, SCREENSIZE + 70, SCREENSIZE + 50);
+                    mb.setBackForeColors(Colors.BACKGROUND, Colors.ON_P_300);
+                    mb.popup();
                 } catch (InvalidNumberException e) {
-                    e.printStackTrace();
+                    String message = "Tente inserir corretamente a conta poupança ou a conta digitada pode uma ser Conta Corrente";
+                    mb = new MessageBox("Conta não encontrada!", message, new String[]{"Ok!"});
+                    mb.setRect(CENTER, CENTER, SCREENSIZE + 70, SCREENSIZE + 50);
+                    mb.setBackForeColors(Colors.BACKGROUND, Colors.ON_P_300);
+                    mb.popup();
+                } catch (NumberFormatException e) {
+                    String message = "Saldo menor do que a quantidade que está querendo transferir";
+                    mb = new MessageBox("Saldo insuficiente!", message, new String[]{"Ok!"});
+                    mb.setRect(CENTER, CENTER, SCREENSIZE + 70, SCREENSIZE + 50);
+                    mb.setBackForeColors(Colors.BACKGROUND, Colors.ON_P_300);
+                    mb.popup();
                 }
             }
         }

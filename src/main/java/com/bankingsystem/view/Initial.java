@@ -2,9 +2,7 @@ package com.bankingsystem.view;
 
 import com.bankingsystem.main.Main;
 import com.bankingsystem.model.Account;
-import com.bankingsystem.model.CheckingAccount;
 import com.bankingsystem.util.Colors;
-import totalcross.sys.InvalidNumberException;
 import totalcross.ui.*;
 import totalcross.ui.event.ControlEvent;
 import totalcross.ui.event.Event;
@@ -103,10 +101,13 @@ public class Initial extends BaseScreen {
     public void onEvent(Event event) {
         if (event.type == ControlEvent.PRESSED) {
             if (event.target == btnTransSav) {
-                Transfer transfer = null;
-//                transfer = new Transfer(Main.account);
-                transfer = new Transfer(btnTransSav.getText());
-                transfer.popup();
+                TransferSav transferSav = new TransferSav(btnTransSav.getText());
+                transferSav.popup();
+            }
+        }if (event.type == ControlEvent.PRESSED) {
+            if (event.target == btnTransChe) {
+                TransferChe transferChe = new TransferChe(btnTransChe.getText());
+                transferChe.popup();
             }
         }
     }

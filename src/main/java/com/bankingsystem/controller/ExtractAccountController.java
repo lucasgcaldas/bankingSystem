@@ -59,7 +59,7 @@ public class ExtractAccountController extends SQLiteConnection {
         }
     }
 
-    public void updateTableAccount(){
+    public void updateTableAccount() {
         try {
             String sql = "UPDATE tb_account" +
                     " SET " +
