@@ -37,17 +37,20 @@ public class ExtractAccountController extends SQLiteConnection {
         this.value = value;
     }
 
-    public void saveTransfer() {
+    public void saveTransfer(String kindTransfer) {
         updateTableAccount();
         try {
-            String sql = "INSERT INTO tb_transfer VALUES (?, ?, ?, ?, ?)";
+            String sql = "INSERT INTO tb_transfer VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
             PreparedStatement preparedStatement = util.con().prepareStatement(sql);
 
-            preparedStatement.setString(1, this.origin.getClass().getName().substring(24));
-            preparedStatement.setBigDecimal(2, this.value);
-            preparedStatement.setString(3, this.destiny.getClass().getName().substring(24));
-            preparedStatement.setBigDecimal(4, this.origin.getBalance());
-            preparedStatement.setBigDecimal(5, this.destiny.getBalance());
+            preparedStatement.setString(1, kindTransfer);
+            preparedStatement.setString(2, this.origin.getClass().getName().substring(24));
+            preparedStatement.setInt(3, this.origin.getBranch());
+            preparedStatement.setInt(4, this.origin.getNumber());
+            preparedStatement.setBigDecimal(5, this.value);
+            preparedStatement.setString(6, this.destiny.getClass().getName().substring(24));
+            preparedStatement.setInt(7, this.destiny.getBranch());
+            preparedStatement.setInt(8, this.destiny.getNumber());
 
             preparedStatement.executeUpdate();
             preparedStatement.close();

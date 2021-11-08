@@ -20,9 +20,10 @@ public class Transfer extends Window {
     private Container bar, cont1, cont2;
     private Button btnImage, btnCont;
     private Edit ageEdit, contEdit, valEdit;
-    private Label destLabel,wValueLabel, ageLabel, contLabel, valLabel, dinLabel;
+    private Label destLabel, wValueLabel, ageLabel, contLabel, valLabel, dinLabel;
     private Integer agencia, conta;
     private BigDecimal valor;
+    private String kindTransfer;
 
     private int GAP = UnitsConverter.toPixels(DP + 20);
 
@@ -31,6 +32,13 @@ public class Transfer extends Window {
 //        this.origin = origin;
 //        this.destiny = destiny;
 //    }
+
+    public Transfer() {
+    }
+
+    public Transfer(String kindTransfer) {
+        this.kindTransfer = kindTransfer;
+    }
 
     public void onPopup() {
         setBackForeColors(Colors.BACKGROUND, Colors.ON_BACKGROUND);
@@ -152,8 +160,8 @@ public class Transfer extends Window {
                     agencia = Integer.parseInt(ageEdit.getText());
                     conta = Integer.parseInt(contEdit.getText());
                     valor = BigDecimal.valueOf(Double.parseDouble(valEdit.getText()));
-                    if (Objects.equals(agencia, Main.destiny.getBranch()) && Objects.equals(conta, Main.destiny.getNumber())){
-                        Main.origin.sendTransfer(valor, Main.destiny);
+                    if (Objects.equals(agencia, Main.destiny.getBranch()) && Objects.equals(conta, Main.destiny.getNumber())) {
+                        Main.origin.sendTransfer(kindTransfer, valor, Main.destiny);
                         Initial.lSaldo.setText("R$ " + Main.origin.getBalance().toString());
                         Initial.lSaldo.repaintNow();
 //                        Transfer transfer = new Transfer(Main.origin.sendTransfer(valor, Main.destiny), Main.destiny);

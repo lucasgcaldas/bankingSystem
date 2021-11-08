@@ -48,7 +48,7 @@ public abstract class Account {
         this.setBalance(this.balance.add(value));
     }
 
-    public Account sendTransfer(BigDecimal value, Account destiny) {
+    public Account sendTransfer(String kindTransfer, BigDecimal value, Account destiny) {
         if (this.getBalance().compareTo(value) >= 0) {
             this.setBalance(this.balance.subtract(value));
             destiny.receivedTransfer(value);
@@ -57,7 +57,7 @@ public abstract class Account {
             eAC.setOrigin(this);
             eAC.setDestiny(destiny);
             eAC.setValue(value);
-            eAC.saveTransfer();
+            eAC.saveTransfer(kindTransfer);
         }
         return this;
     }

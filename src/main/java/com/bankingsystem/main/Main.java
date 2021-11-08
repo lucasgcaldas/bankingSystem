@@ -24,7 +24,6 @@ public class Main extends MainWindow {
     private Button btnImage2;
     public static Account origin;
     public static Account destiny;
-    private AccountController ac = new AccountController();;
 
     public Main() {
         super("TotalCross Showcase", NO_BORDER);

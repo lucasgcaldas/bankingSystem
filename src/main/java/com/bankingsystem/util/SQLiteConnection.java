@@ -19,7 +19,7 @@ public class SQLiteConnection {
             createTableUser();
             System.out.println("Connected");
         } catch (SQLException e) {
-            e.getMessage();
+            e.printStackTrace();
         }
     }
 
@@ -49,11 +49,14 @@ public class SQLiteConnection {
         try {
             Statement st = util.con().createStatement();
             st.execute("CREATE TABLE IF NOT EXISTS tb_transfer(" +
+                    "kind_transfer STRING  NOT NULL," +
                     "origin STRING  NOT NULL," +
+                    "ori_branch INTEGER  NOT NULL," +
+                    "ori_number INTEGER  NOT NULL," +
                     "value DOUBLE  NOT NULL," +
                     "destiny STRING  NOT NULL," +
-                    "new_origin_balance DECIMAL NOT NULL," +
-                    "new_received_balance DECIMAL NOT NULL" +
+                    "des_branch INTEGER  NOT NULL," +
+                    "des_number INTEGER  NOT NULL" +
                     ");");
             st.close();
         } catch (SQLException e) {

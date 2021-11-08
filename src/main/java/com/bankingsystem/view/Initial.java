@@ -105,7 +105,7 @@ public class Initial extends BaseScreen {
             if (event.target == btnTransSav) {
                 Transfer transfer = null;
 //                transfer = new Transfer(Main.account);
-                transfer = new Transfer();
+                transfer = new Transfer(btnTransSav.getText());
                 transfer.popup();
             }
         }
