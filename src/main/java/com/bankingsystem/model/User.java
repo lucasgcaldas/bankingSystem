@@ -1,83 +1,65 @@
 package com.bankingsystem.model;
 
-import com.bankingsystem.controller.UserController;
+import java.util.ArrayList;
+import java.util.List;
 
 public class User {
 
-    private Long id;
     private String name;
     private String cpf;
-    private Account account;
+    private String birthDate;
+    private List<Account> accounts;
+    private String password;
 
-    public User(String name, String cpf, Account account) {
+    public User(String name, String cpf, String birthDate, ArrayList<Account> accounts, String password) {
         this.name = name;
         this.cpf = cpf;
-        this.account = account;
-    }
-
-    // Constructor to start the application
-    public User(Account account){
-        this.name = "Lucas Gomes Caldas";
-        this.cpf = "123.456.789-10";
-        this.account = account;
-        UserController uc = new UserController();
-        uc.saveUser(this);
+        this.birthDate = birthDate;
+        this.accounts = accounts;
+        this.password = password;
     }
 
     public User() {
-    }
-
-    public Long getId() {
-        return id;
     }
 
     public String getName() {
         return name;
     }
 
-    public String getCpf() {
-        return cpf;
-    }
-
-    public Account getAccount() {
-        return account;
-    }
-
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getCpf() {
+        return cpf;
     }
 
     public void setCpf(String cpf) {
         this.cpf = cpf;
     }
 
-    public void setAccount(Account account) {
-        this.account = account;
+    public String getBirthDate() {
+        return birthDate;
     }
 
-    @Override
-    public int hashCode() {
-        final int prime = 31;
-        int result = 1;
-        result = prime * result + ((id == null) ? 0 : id.hashCode());
-        return result;
+    public void setBirthDate(String birthDate) {
+        this.birthDate = birthDate;
     }
 
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj)
-            return true;
-        if (obj == null)
-            return false;
-        if (getClass() != obj.getClass())
-            return false;
-        User other = (User) obj;
-        if (id == null) {
-            if (other.id != null)
-                return false;
-        } else if (!id.equals(other.id))
-            return false;
-        return true;
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public List<Account> getAccounts() {
+        return accounts;
+    }
+
+    public void setAccounts(List<Account> accounts) {
+        this.accounts = accounts;
     }
 }
 

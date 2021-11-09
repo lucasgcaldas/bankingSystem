@@ -14,7 +14,7 @@ public abstract class BaseScreen extends Container {
     protected ScrollContainer content;
     protected boolean allowVerticalScroll = true;
     protected boolean allowHorizontalScroll = false;
-    Container bar;
+    private Container bar;
     boolean showBar;
     private Button btnImage1;
     private Button btnImage2;

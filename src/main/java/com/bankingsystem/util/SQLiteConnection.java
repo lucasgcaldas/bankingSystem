@@ -71,7 +71,10 @@ public class SQLiteConnection {
                     "pk_id INTEGER PRIMARY KEY," +
                     "name STRING  NOT NULL," +
                     "cpf STRING  NOT NULL," +
-                    "account INTEGER REFERENCES tb_account (number)" +
+                    "birthdate STRING  NOT NULL," +
+                    "account1 INTEGER REFERENCES tb_account (number)," +
+                    "account2 INTEGER REFERENCES tb_account (number)," +
+                    "password STRING  NOT NULL" +
                     ");");
             st.close();
         } catch (SQLException e) {

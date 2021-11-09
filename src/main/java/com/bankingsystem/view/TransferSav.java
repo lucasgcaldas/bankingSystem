@@ -155,8 +155,8 @@ public class TransferSav extends Window {
                     if (Main.origin.getBalance().compareTo(valor) >= 0) {
                         if (account.getClass().getName().substring(24).equals("SavingsAccount")) {
                             Main.origin.sendTransfer(kindTransfer, valor, account);
-                            Initial.lSaldo.setText("R$ " + Main.origin.getBalance().toString());
-                            Initial.lSaldo.repaintNow();
+                            Home.lSaldo.setText("R$ " + Main.origin.getBalance().toString());
+                            Home.lSaldo.repaintNow();
                             TransferSav transferSav = new TransferSav();
                             transferSav.unpop();
                         } else {

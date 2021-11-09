@@ -1,12 +1,12 @@
 package com.bankingsystem.main;
 
-import com.bankingsystem.controller.AccountController;
 import com.bankingsystem.model.Account;
 import com.bankingsystem.model.CheckingAccount;
 import com.bankingsystem.model.SavingsAccount;
 import com.bankingsystem.util.Colors;
 import com.bankingsystem.util.SQLiteConnection;
-import com.bankingsystem.view.Initial;
+import com.bankingsystem.view.Home;
+import com.bankingsystem.view.Login;
 import totalcross.sys.InvalidNumberException;
 import totalcross.sys.Settings;
 import totalcross.ui.*;
@@ -18,48 +18,38 @@ import totalcross.ui.image.Image;
 import totalcross.util.BigDecimal;
 import totalcross.util.UnitsConverter;
 
-public class Main extends MainWindow {
+public class Main extends Window {
 
-    SideMenuContainer sideMenu;
+    public static SideMenuContainer sideMenu;
     private Button btnImage1;
     private Button btnImage2;
     public static Account origin;
     public static Account destiny;
     public static Account destiny2;
 
-    public Main() {
-        super("TotalCross Showcase", NO_BORDER);
-
-        setUIStyle(Settings.MATERIAL_UI);
-        uiAdjustmentsBasedOnFontHeightIsSupported = false;
-        setBackForeColors(com.bankingsystem.util.Colors.BACKGROUND, com.bankingsystem.util.Colors.SURFACE);
-    }
-
     @Override
-    public void initUI() {
+    public void onPopup() {
         try {
-            SQLiteConnection.getInstance();
             MainWindow.getMainWindow().addTimer(100);
 
-            SideMenuContainer.Item home = new SideMenuContainer.Item("TotalCross", MaterialIcons._HOME, Color.BLACK, false, () -> {
-                try {
-                    origin = new CheckingAccount(new BigDecimal("15000.00"), 1111, 12345);
-
-                    destiny = new SavingsAccount(new BigDecimal("30000.00"), 2222, 56789);
-                    destiny2 = new CheckingAccount(new BigDecimal("75000.00"), 3333, 10111);
-
-                    return new Initial();
-                } catch (InvalidNumberException e) {
-                    e.printStackTrace();
-                }
-                return null;
-            });
+//            SideMenuContainer.Item home = new SideMenuContainer.Item("Home", MaterialIcons._HOME, Color.BLACK, false, () -> {
+//                try {
+//                    origin = new CheckingAccount(new BigDecimal("15000.00"), 1111, 12345);
+//
+//                    destiny = new SavingsAccount(new BigDecimal("30000.00"), 2222, 56789);
+//                    destiny2 = new CheckingAccount(new BigDecimal("75000.00"), 3333, 10111);
+//
+//                    return new Home();
+//                } catch (InvalidNumberException e) {
+//                    e.printStackTrace();
+//                }
+//                return null;
+//            });
+            SideMenuContainer.Item home = new SideMenuContainer.Item("Home", MaterialIcons._HOME, Color.BLACK, false, Home::new);
             home.setFont(Font.getFont("Roboto", true, 19));
-            SideMenuContainer.Sub uiGroup = createUISubGroup();
 
             sideMenu = new SideMenuContainer(null,
-                    home,
-                    uiGroup);
+                    home);
 
             sideMenu.topMenu.header = new Container() {
                 @Override
@@ -67,7 +57,7 @@ public class Main extends MainWindow {
                     setBackColor(Colors.PRIMARY);
 
                     Label title = new Label("Menu", LEFT, Color.WHITE, false);
-                    title.setFont(Font.getFont("Lato Bold", false, this.getFont().size + 5));
+                    title.setFont(Font.getFont("Roboto", false, 19));
                     title.setForeColor(Color.WHITE);
                     add(title, LEFT + UnitsConverter.toPixels(Control.DP + 10), BOTTOM - UnitsConverter.toPixels(Control.DP + 10), FILL, DP + 56);
                 }
@@ -95,10 +85,5 @@ public class Main extends MainWindow {
         } catch (Exception e) {
             MessageBox.showException(e, true);
         }
-    }
-
-    private SideMenuContainer.Sub createUISubGroup() {
-        return new SideMenuContainer.Sub("TotalCross",
-                new SideMenuContainer.Item("TotalCross", MaterialIcons._LOOKS, Color.BLACK, Initial::new));
     }
 }

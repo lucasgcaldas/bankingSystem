@@ -3,6 +3,7 @@ package com.bankingsystem.view;
 import com.bankingsystem.main.Main;
 import com.bankingsystem.model.Account;
 import com.bankingsystem.util.Colors;
+import totalcross.sys.Settings;
 import totalcross.ui.*;
 import totalcross.ui.event.ControlEvent;
 import totalcross.ui.event.Event;
@@ -10,19 +11,12 @@ import totalcross.ui.font.Font;
 import totalcross.ui.gfx.Color;
 import totalcross.util.UnitsConverter;
 
-public class Initial extends BaseScreen {
+public class Home extends BaseScreen {
 
     private Container bar, bar2, bar3;
     private Button btnServices, btnTransSav, btnTransChe;
     private Button btnExtract, btnPix, btnComp, btnRecar;
-    private Account origin, destiny;
     public static Label lSaldo;
-
-//    public Initial(Account origin, Account destiny)  {
-//        super();
-//        this.origin = origin;
-//        this.destiny = destiny;
-//    }
 
     @Override
     public void onContent(ScrollContainer content) {
@@ -34,6 +28,7 @@ public class Initial extends BaseScreen {
             bar.setBackColor(Colors.PRIMARY);
             add(bar, LEFT, TOP, PARENTSIZE, DP + 52);
             Label mSD = new Label("Meu saldo disponível", LEFT);
+            mSD.setForeColor(Color.WHITE);
             mSD.setFont(Font.getFont("Roboto", true, 15));
             bar.add(mSD, LEFT + 16, TOP, PARENTSIZE + 50, PREFERRED);
             bar.resizeHeight();
@@ -44,8 +39,8 @@ public class Initial extends BaseScreen {
 
             lSaldo = new Label("R$ " + Main.origin.getBalance().toString(), LEFT);
             lSaldo.setFont(Font.getFont("Roboto", true, 17));
+            lSaldo.setForeColor(Color.WHITE);
             bar2.add(lSaldo, LEFT + 16, AFTER, PARENTSIZE + 50, PREFERRED);
-//            bar2.resizeHeight();
 
             bar3 = new Container();
             add(bar3, LEFT, AFTER, 360, 490);
