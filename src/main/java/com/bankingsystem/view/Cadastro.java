@@ -59,7 +59,7 @@ public class Cadastro extends Window {
             bar2.setBorderStyle(BORDER_ROUNDED);
             bar2.borderColor = 0xEBEBEB;
             bar2.setBorderRadius(24);
-            add(bar2, CENTER, AFTER + GAP, 328, 372);
+            add(bar2, CENTER, AFTER + GAP, 328, 382);
 
             cadastro = new Label("Cadastre sua Conta");
             cadastro.transparentBackground = true;
@@ -150,12 +150,9 @@ public class Cadastro extends Window {
         }
         if (event.type == ControlEvent.PRESSED) {
             if (event.target == btnConf) {
-                User user = new User();
-                user.setName(nameEdit.getText());
-                user.setCpf(cpfEdit.getText());
-                user.setBirthDate(dateEdit.getText());
-
-                List<Account> accounts = new ArrayList<>();
+                Main.user.setName(nameEdit.getText());
+                Main.user.setCpf(cpfEdit.getText());
+                Main.user.setBirthDate(dateEdit.getText());
 
                 if (Objects.equals(kindAccountBox.getValue(), "Poupança")){
                     SavingsAccount sA = new SavingsAccount();
@@ -163,23 +160,23 @@ public class Cadastro extends Window {
                     sA.setNumber(Integer.parseInt(String.valueOf(new BigInteger(UUID.randomUUID().toString().replace("-", ""), 16)).substring(0, 6)));
                     sA.setBranch(Integer.parseInt(String.valueOf(new BigInteger(UUID.randomUUID().toString().replace("-", ""), 16)).substring(0, 4)));
 
+                    Main.user.setAccount1(sA);
                     ac.saveAccount(sA);
-                    accounts.add(sA);
                 } else if (Objects.equals(kindAccountBox.getValue(), "Corrente")) {
                     CheckingAccount cA = new CheckingAccount();
                     cA.setBalance(new BigDecimal(1000));
                     cA.setNumber(Integer.parseInt(String.valueOf(new BigInteger(UUID.randomUUID().toString().replace("-", ""), 16)).substring(0, 6)));
                     cA.setBranch(Integer.parseInt(String.valueOf(new BigInteger(UUID.randomUUID().toString().replace("-", ""), 16)).substring(0, 4)));
 
+                    Main.user.setAccount1(cA);
                     ac.saveAccount(cA);
-                    accounts.add(cA);
                 } else {
                     SavingsAccount sA = new SavingsAccount();
                     sA.setBalance(new BigDecimal(1500));
                     sA.setNumber(Integer.parseInt(String.valueOf(new BigInteger(UUID.randomUUID().toString().replace("-", ""), 16)).substring(0, 6)));
                     sA.setBranch(Integer.parseInt(String.valueOf(new BigInteger(UUID.randomUUID().toString().replace("-", ""), 16)).substring(0, 4)));
 
-                    accounts.add(sA);
+                    Main.user.setAccount1(sA);
                     ac.saveAccount(sA);
 
                     CheckingAccount cA = new CheckingAccount();
@@ -187,12 +184,11 @@ public class Cadastro extends Window {
                     cA.setNumber(Integer.parseInt(String.valueOf(new BigInteger(UUID.randomUUID().toString().replace("-", ""), 16)).substring(0, 6)));
                     cA.setBranch(Integer.parseInt(String.valueOf(new BigInteger(UUID.randomUUID().toString().replace("-", ""), 16)).substring(0, 4)));
 
-                    accounts.add(cA);
+                    Main.user.setAccount2(cA);
                     ac.saveAccount(cA);
                 }
-                user.setAccounts(accounts);
-                user.setPassword(passwordEdit.getText());
-                uc.saveUser(user);
+                Main.user.setPassword(passwordEdit.getText());
+                uc.saveUser(Main.user);
 
                 this.unpop();
             }

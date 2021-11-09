@@ -150,7 +150,7 @@ public class TransferSav extends Window {
                     agencia = Integer.parseInt(ageEdit.getText());
                     conta = Integer.parseInt(contEdit.getText());
                     valor = BigDecimal.valueOf(Double.parseDouble(valEdit.getText()));
-                    account = aC.checkIfExistAccountToTransfer(agencia, conta, kindTransfer);
+                    account = aC.checkIfExistAccountToTransfer(agencia, conta);
 
                     if (Main.origin.getBalance().compareTo(valor) >= 0) {
                         if (account.getClass().getName().substring(24).equals("SavingsAccount")) {

@@ -3,6 +3,7 @@ package com.bankingsystem.main;
 import com.bankingsystem.model.Account;
 import com.bankingsystem.model.CheckingAccount;
 import com.bankingsystem.model.SavingsAccount;
+import com.bankingsystem.model.User;
 import com.bankingsystem.util.Colors;
 import com.bankingsystem.util.SQLiteConnection;
 import com.bankingsystem.view.Home;
@@ -24,8 +25,7 @@ public class Main extends Window {
     private Button btnImage1;
     private Button btnImage2;
     public static Account origin;
-    public static Account destiny;
-    public static Account destiny2;
+    public static User user;
 
     @Override
     public void onPopup() {

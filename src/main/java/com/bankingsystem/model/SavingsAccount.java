@@ -9,7 +9,7 @@ public class SavingsAccount extends Account {
 
     public SavingsAccount(BigDecimal balance, Integer branch, Integer number) {
         super(balance, branch, number);
-        ac.checkIfExistAccount(this);
+//        ac.checkIfExistAccount(this);
     }
 
     public SavingsAccount() {

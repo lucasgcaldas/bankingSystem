@@ -8,14 +8,16 @@ public class User {
     private String name;
     private String cpf;
     private String birthDate;
-    private List<Account> accounts;
+    private Account account1;
+    private Account account2;
     private String password;
 
-    public User(String name, String cpf, String birthDate, ArrayList<Account> accounts, String password) {
+    public User(String name, String cpf, String birthDate, Account account1, Account account2, String password) {
         this.name = name;
         this.cpf = cpf;
         this.birthDate = birthDate;
-        this.accounts = accounts;
+        this.account1 = account1;
+        this.account2 = account2;
         this.password = password;
     }
 
@@ -54,12 +56,20 @@ public class User {
         this.password = password;
     }
 
-    public List<Account> getAccounts() {
-        return accounts;
+    public Account getAccount1() {
+        return account1;
     }
 
-    public void setAccounts(List<Account> accounts) {
-        this.accounts = accounts;
+    public void setAccount1(Account account1) {
+        this.account1 = account1;
+    }
+
+    public Account getAccount2() {
+        return account2;
+    }
+
+    public void setAccount2(Account account2) {
+        this.account2 = account2;
     }
 }
 

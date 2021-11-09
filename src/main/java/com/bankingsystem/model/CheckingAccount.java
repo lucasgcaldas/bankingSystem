@@ -10,7 +10,7 @@ public class CheckingAccount extends Account {
 
     public CheckingAccount(BigDecimal balance, Integer branch, Integer number) throws InvalidNumberException {
         super(balance, branch, number);
-        ac.checkIfExistAccount(this);
+//        ac.checkIfExistAccount(this);
     }
 
     public CheckingAccount() {
