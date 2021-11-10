@@ -25,7 +25,7 @@ public class Login extends MainWindow {
     private Container bar1, bar2;
     private Edit ageEdit, contEdit, passwordEdit;
     private Label label, acessarLabel, ageLabel, contLabel, passwordLabel;
-    private Button btnCadas, btnConf;
+    private Button btnCadas, btnConf, btnChangePassword;
     private AccountController ac = new AccountController();
     private UserController uc = new UserController();
     private Integer agencia, conta;
@@ -63,7 +63,7 @@ public class Login extends MainWindow {
             bar2.setBorderStyle(BORDER_ROUNDED);
             bar2.borderColor = 0xEBEBEB;
             bar2.setBorderRadius(24);
-            add(bar2, CENTER, AFTER + GAP, 328, 300);
+            add(bar2, CENTER, AFTER + GAP, 328, 310);
 
             acessarLabel = new Label("Acessar sua Conta");
             acessarLabel.transparentBackground = true;
@@ -98,6 +98,12 @@ public class Login extends MainWindow {
             passwordEdit.setMode(Edit.PASSWORD_ALL);
             passwordEdit.setBackForeColors(Color.DARK, Color.BLACK);
 
+            btnChangePassword = new Button("Trocar Senha");
+            btnChangePassword.setFont(Font.getFont("Roboto", true, 15));
+            btnChangePassword.setForeColor(Color.DARK);
+            btnChangePassword.transparentBackground = true;
+            btnChangePassword.setBorder(BORDER_NONE);
+
             bar2.add(acessarLabel, CENTER, TOP + 10);
             bar2.add(ageLabel, LEFT + 20, TOP + 50);
             bar2.add(ageEdit, SAME, AFTER + 10, 288, 38);
@@ -105,6 +111,7 @@ public class Login extends MainWindow {
             bar2.add(contEdit, SAME, AFTER + 10, 288, 38);
             bar2.add(passwordLabel, SAME, AFTER + 10);
             bar2.add(passwordEdit, SAME, AFTER + 10, 288, 38);
+            bar2.add(btnChangePassword, CENTER, AFTER);
 
             btnCadas = new Button("Cadastro");
             btnCadas.setFont(Font.getFont("Roboto", true, 19));
@@ -134,7 +141,7 @@ public class Login extends MainWindow {
                 senha = String.valueOf(passwordEdit.getText());
                 try {
                     Main.origin = ac.checkIfExistAccountToTransfer(agencia, conta);
-                    Main.user = uc.checkIfExistUser(senha);
+                    Main.user = uc.checkIfExistUserWithPassword(senha);
                     if (Main.user != null) {
                         if (Main.origin != null) {
                             if (Objects.equals(senha, Main.user.getPassword())) {
@@ -166,6 +173,13 @@ public class Login extends MainWindow {
             if (event.target == btnCadas) {
                 Cadastro cadastro = new Cadastro();
                 cadastro.popup();
+            }
+        }
+        if (event.type == ControlEvent.PRESSED) {
+            if (event.target == btnChangePassword) {
+                Password password = new Password();
+                password.popup();
+//                uc.updatePassword(Main.user);
             }
         }
     }

@@ -150,6 +150,7 @@ public class Cadastro extends Window {
         }
         if (event.type == ControlEvent.PRESSED) {
             if (event.target == btnConf) {
+                Main.user = new User();
                 Main.user.setName(nameEdit.getText());
                 Main.user.setCpf(cpfEdit.getText());
                 Main.user.setBirthDate(dateEdit.getText());
