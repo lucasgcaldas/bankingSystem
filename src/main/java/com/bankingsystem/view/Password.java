@@ -121,7 +121,7 @@ public class Password extends Window {
                     senhaAntiga = antigaEdit.getText();
                     senhaNova = novaEdit.getText();
                     Main.user = uc.checkIfExistUser(nome, senhaAntiga, senhaNova);
-                    if (Main.user == null){
+                    if (Main.user == null) {
                         throw new NullPointerException();
                     } else {
                         this.unpop();

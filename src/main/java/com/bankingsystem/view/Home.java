@@ -15,7 +15,7 @@ public class Home extends BaseScreen {
 
     private Container bar, bar2, bar3;
     private Button btnServices, btnTransSav, btnTransChe;
-    private Button btnExtract, btnPix, btnComp, btnRecar;
+    private Button btnExtract, btnPix, btnComp, btnRecar, btnChat;
     public static Label lSaldo;
 
     @Override
@@ -59,7 +59,6 @@ public class Home extends BaseScreen {
             btnTransChe.setBackForeColors(Color.WHITE, 0x908390);
             btnTransChe.roundBorderFactor = 14;
 
-
             btnExtract = new Button("Extrato");
             btnExtract.setFont(Font.getFont("Roboto", true, 16));
             btnExtract.setBackForeColors(Color.WHITE, 0x908390);
@@ -80,6 +79,11 @@ public class Home extends BaseScreen {
             btnRecar.setBackForeColors(Color.WHITE, 0x908390);
             btnRecar.roundBorderFactor = 14;
 
+            btnChat = new Button("Chat em grupo");
+            btnChat.setFont(Font.getFont("Roboto", true, 16));
+            btnChat.setBackForeColors(Color.WHITE, Colors.PRIMARY);
+            btnChat.roundBorderFactor = 14;
+
             bar3.add(btnServices, CENTER, AFTER + UnitsConverter.toPixels(DP + 8), 328, 50);
             bar3.add(btnTransSav, LEFT + 16, AFTER + UnitsConverter.toPixels(DP + 8), 155, 108);
             bar3.add(btnTransChe, AFTER + UnitsConverter.toPixels(DP + 18), SAME, 155, 108);
@@ -87,6 +91,7 @@ public class Home extends BaseScreen {
             bar3.add(btnPix, AFTER + UnitsConverter.toPixels(DP + 18), SAME, 155, 108);
             bar3.add(btnComp, LEFT + 16, AFTER + UnitsConverter.toPixels(DP + 8), 155, 108);
             bar3.add(btnRecar, AFTER + UnitsConverter.toPixels(DP + 18), SAME, 155, 108);
+            bar3.add(btnChat, CENTER, AFTER + UnitsConverter.toPixels(DP + 8), 328, 50);
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -103,6 +108,12 @@ public class Home extends BaseScreen {
             if (event.target == btnTransChe) {
                 TransferChe transferChe = new TransferChe(btnTransChe.getText());
                 transferChe.popup();
+            }
+        }
+        if (event.type == ControlEvent.PRESSED) {
+            if (event.target == btnChat) {
+                ChatGroup chatGroup = new ChatGroup();
+                chatGroup.popup();
             }
         }
     }

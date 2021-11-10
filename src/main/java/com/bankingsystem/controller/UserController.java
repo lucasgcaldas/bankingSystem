@@ -1,8 +1,5 @@
 package com.bankingsystem.controller;
 
-import com.bankingsystem.model.Account;
-import com.bankingsystem.model.CheckingAccount;
-import com.bankingsystem.model.SavingsAccount;
 import com.bankingsystem.model.User;
 import com.bankingsystem.util.SQLiteConnection;
 import totalcross.sql.PreparedStatement;
@@ -27,7 +24,7 @@ public class UserController extends SQLiteConnection {
             preparedStatement.setInt(5, user.getAccount1().getNumber());
             if (user.getAccount2() != null) {
                 preparedStatement.setInt(6, user.getAccount2().getNumber());
-            } else{
+            } else {
                 preparedStatement.setString(6, "-");
             }
             preparedStatement.setString(7, user.getPassword());
@@ -115,5 +112,34 @@ public class UserController extends SQLiteConnection {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+
+    public User checkIfExistUserToMessage(String name) {
+        try {
+            String sql = "SELECT * FROM tb_user WHERE name = ?";
+            PreparedStatement preparedStatement = util.con().prepareStatement(sql);
+            preparedStatement.setString(1, name);
+
+            ResultSet rs = preparedStatement.executeQuery();
+
+            if (rs.isBeforeFirst()) {
+                if (Objects.equals(rs.getString("name"), name)) {
+                    user = new User();
+                    user.setName(rs.getString("name"));
+                    user.setCpf(rs.getString("cpf"));
+                    user.setBirthDate(rs.getString("birthdate"));
+                    user.setAccount1(ac.checkIfExistAccount(rs.getInt("account1")));
+                    user.setAccount2(ac.checkIfExistAccount(rs.getInt("account2")));
+                    user.setPassword(rs.getString("password"));
+                }
+            }
+
+            preparedStatement.close();
+            rs.close();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return user;
     }
 }

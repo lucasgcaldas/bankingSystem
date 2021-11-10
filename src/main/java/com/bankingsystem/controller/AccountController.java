@@ -14,7 +14,6 @@ import java.util.Objects;
 public class AccountController extends SQLiteConnection {
 
     private Account account;
-    private MessageBox mb;
 
     public void saveAccount(Account account) {
         try {

@@ -17,6 +17,7 @@ public class SQLiteConnection {
             createTableAccount();
             createTableTransfer();
             createTableUser();
+            createTableGroupMessage();
             System.out.println("Connected");
         } catch (SQLException e) {
             e.printStackTrace();
@@ -75,6 +76,22 @@ public class SQLiteConnection {
                     "account1 INTEGER REFERENCES tb_account (number)," +
                     "account2 INTEGER REFERENCES tb_account (number)," +
                     "password STRING  NOT NULL" +
+                    ");");
+            st.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void createTableGroupMessage() {
+        try {
+            Statement st = util.con().createStatement();
+            st.execute("CREATE TABLE IF NOT EXISTS tb_messages(" +
+                    "pk_id INTEGER PRIMARY KEY," +
+                    "name STRING  NOT NULL," +
+                    "account INTEGER  NOT NULL," +
+                    "hour STRING  NOT NULL," +
+                    "message STRING  NOT NULL" +
                     ");");
             st.close();
         } catch (SQLException e) {

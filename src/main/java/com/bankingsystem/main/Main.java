@@ -1,17 +1,17 @@
 package com.bankingsystem.main;
 
-import com.bankingsystem.model.Account;
-import com.bankingsystem.model.CheckingAccount;
-import com.bankingsystem.model.SavingsAccount;
-import com.bankingsystem.model.User;
+import com.bankingsystem.model.*;
 import com.bankingsystem.util.Colors;
 import com.bankingsystem.util.SQLiteConnection;
 import com.bankingsystem.view.Home;
 import com.bankingsystem.view.Login;
+import com.bankingsystem.view.Password;
 import totalcross.sys.InvalidNumberException;
 import totalcross.sys.Settings;
 import totalcross.ui.*;
 import totalcross.ui.dialog.MessageBox;
+import totalcross.ui.event.ControlEvent;
+import totalcross.ui.event.Event;
 import totalcross.ui.font.Font;
 import totalcross.ui.gfx.Color;
 import totalcross.ui.icon.MaterialIcons;
@@ -22,10 +22,10 @@ import totalcross.util.UnitsConverter;
 public class Main extends Window {
 
     public static SideMenuContainer sideMenu;
-    private Button btnImage1;
-    private Button btnImage2;
+    private Button btnImage1, btnImage2;
     public static Account origin;
     public static User user;
+    public static Message message;
 
     @Override
     public void onPopup() {
