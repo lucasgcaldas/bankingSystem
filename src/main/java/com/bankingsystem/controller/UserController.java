@@ -142,4 +142,34 @@ public class UserController extends SQLiteConnection {
         }
         return user;
     }
+
+    public User checkIfExistUserToTrans(Integer account) {
+        try {
+            String sql = "SELECT * FROM tb_user WHERE account1 = ? OR account2 = ?";
+            PreparedStatement preparedStatement = util.con().prepareStatement(sql);
+            preparedStatement.setInt(1, account);
+            preparedStatement.setInt(2, account);
+
+            ResultSet rs = preparedStatement.executeQuery();
+
+            if (rs.isBeforeFirst()) {
+                if (rs.getInt("account1") == account || rs.getInt("account2") == account) {
+                    user = new User();
+                    user.setName(rs.getString("name"));
+                    user.setCpf(rs.getString("cpf"));
+                    user.setBirthDate(rs.getString("birthdate"));
+                    user.setAccount1(ac.checkIfExistAccount(rs.getInt("account1")));
+                    user.setAccount2(ac.checkIfExistAccount(rs.getInt("account2")));
+                    user.setPassword(rs.getString("password"));
+                }
+            }
+
+            preparedStatement.close();
+            rs.close();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return user;
+    }
 }

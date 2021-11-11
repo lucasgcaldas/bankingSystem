@@ -1,8 +1,11 @@
 package com.bankingsystem.view;
 
 import com.bankingsystem.controller.AccountController;
+import com.bankingsystem.controller.UserController;
+import com.bankingsystem.exceptions.AccountNotFoundException;
 import com.bankingsystem.main.Main;
 import com.bankingsystem.model.Account;
+import com.bankingsystem.model.User;
 import com.bankingsystem.util.Colors;
 import totalcross.sys.InvalidNumberException;
 import totalcross.ui.*;
@@ -27,6 +30,7 @@ public class TransferChe extends Window {
     private AccountController aC = new AccountController();
     private Account account;
     private MessageBox mb;
+    private UserController uc = new UserController();
 
     private int GAP = UnitsConverter.toPixels(DP + 20);
 
@@ -151,39 +155,28 @@ public class TransferChe extends Window {
                     conta = Integer.parseInt(contEdit.getText());
                     valor = BigDecimal.valueOf(Double.parseDouble(valEdit.getText()));
                     account = aC.checkIfExistAccountToTransfer(agencia, conta);
+                    User user = uc.checkIfExistUserToTrans(conta);
 
-                    if (Main.origin.getBalance().compareTo(valor) >= 0) {
-                        if (account.getClass().getName().substring(24).equals("CheckingAccount")) {
-                            Main.origin.sendTransfer(kindTransfer, valor, account);
-                            Home.lSaldo.setText("R$ " + Main.origin.getBalance().toString());
-                            Home.lSaldo.repaintNow();
-                            TransferSav transferSav = new TransferSav();
-                            transferSav.unpop();
-                        } else {
-                            throw new InvalidNumberException();
-                        }
+                    if (account.getClass().getName().substring(24).equals("CheckingAccount")) {
+                        ConfTrans confTrans = new ConfTrans(agencia, conta, valor, account, user, this.getClass().getName().substring(23));
+                        confTrans.popup();
                     } else {
-                        throw new NumberFormatException();
+                        throw new AccountNotFoundException();
                     }
-
                 } catch (NullPointerException e) {
-                    String message = "Tente inserir corretamente a conta corrente";
+                    String message = "Tente inserir corretamente a conta Corrente";
                     mb = new MessageBox("Conta inexistente!", message, new String[]{"Ok!"});
                     mb.setRect(CENTER, CENTER, SCREENSIZE + 70, SCREENSIZE + 50);
                     mb.setBackForeColors(Colors.BACKGROUND, Colors.ON_P_300);
                     mb.popup();
-                } catch (InvalidNumberException e) {
+                } catch (AccountNotFoundException e) {
                     String message = "Tente inserir corretamente a conta corrente ou a conta digitada pode uma ser Conta Poupança";
                     mb = new MessageBox("Conta não encontrada!", message, new String[]{"Ok!"});
                     mb.setRect(CENTER, CENTER, SCREENSIZE + 70, SCREENSIZE + 50);
                     mb.setBackForeColors(Colors.BACKGROUND, Colors.ON_P_300);
                     mb.popup();
-                } catch (NumberFormatException e) {
-                    String message = "Saldo menor do que a quantidade que está querendo transferir";
-                    mb = new MessageBox("Saldo insuficiente!", message, new String[]{"Ok!"});
-                    mb.setRect(CENTER, CENTER, SCREENSIZE + 70, SCREENSIZE + 50);
-                    mb.setBackForeColors(Colors.BACKGROUND, Colors.ON_P_300);
-                    mb.popup();
+                } catch (InvalidNumberException e) {
+                    e.printStackTrace();
                 }
             }
         }
