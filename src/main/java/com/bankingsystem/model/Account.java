@@ -1,7 +1,12 @@
 package com.bankingsystem.model;
 
 import com.bankingsystem.controller.ExtractAccountController;
+import com.bankingsystem.controller.UserController;
+import com.bankingsystem.main.Main;
 import totalcross.util.BigDecimal;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 public abstract class Account {
 
@@ -44,44 +49,31 @@ public abstract class Account {
     }
 
     public void receivedTransfer(BigDecimal value) {
-        this.setBalance(this.balance.add(value));
+        Main.destiny.setBalance(Main.destiny.getBalance().add(value));
     }
 
-    public void sendTransfer(String kindTransfer, BigDecimal value, Account destiny) {
-        if (this.getBalance().compareTo(value) >= 0) {
-            this.setBalance(this.balance.subtract(value));
-            destiny.receivedTransfer(value);
+    public void sendTransfer(String kindTransfer, BigDecimal value) {
 
+        if (Main.origin.getBalance().compareTo(value) >= 0) {
+
+            Main.origin.setBalance(this.balance.subtract(value));
+            Main.destiny.receivedTransfer(value);
+
+            UserController uc = new UserController();
             ExtractAccountController eAC = new ExtractAccountController();
-            eAC.setOrigin(this);
-            eAC.setDestiny(destiny);
-            eAC.setValue(value);
-            eAC.saveTransfer(kindTransfer);
+
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd HH:mm");
+            Date date = new Date();
+            Extract extract = new Extract();
+
+            User user = uc.checkIfExistUserToTrans(Main.destiny.getNumber());
+
+            extract.setUser(Main.user);
+            extract.setUserDestiny(user);
+            extract.setValue(value);
+            extract.setDate(sdf.format(date));
+
+            eAC.saveTransfer(extract, kindTransfer, Main.destiny.getNumber());
         }
-    }
-
-    @Override
-    public int hashCode() {
-        final int prime = 31;
-        int result = 1;
-        result = prime * result + ((number == null) ? 0 : number.hashCode());
-        return result;
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj)
-            return true;
-        if (obj == null)
-            return false;
-        if (getClass() != obj.getClass())
-            return false;
-        Account other = (Account) obj;
-        if (number == null) {
-            if (other.number != null)
-                return false;
-        } else if (!number.equals(other.number))
-            return false;
-        return true;
     }
 }

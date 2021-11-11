@@ -154,11 +154,11 @@ public class TransferSav extends Window {
                     agencia = Integer.parseInt(ageEdit.getText());
                     conta = Integer.parseInt(contEdit.getText());
                     valor = BigDecimal.valueOf(Double.parseDouble(valEdit.getText()));
-                    account = aC.checkIfExistAccountToTransfer(agencia, conta);
+                    Main.destiny = aC.checkIfExistAccountToTransfer(agencia, conta);
                     User user = uc.checkIfExistUserToTrans(conta);
 
-                    if (account.getClass().getName().substring(24).equals("SavingsAccount")) {
-                        ConfTrans confTrans = new ConfTrans(agencia, conta, valor, account, user, this.getClass().getName().substring(23));
+                    if (Main.destiny.getClass().getName().substring(24).equals("SavingsAccount")) {
+                        ConfTrans confTrans = new ConfTrans(agencia, conta, valor, user, this.getClass().getName().substring(23));
                         confTrans.popup();
                     } else {
                         throw new AccountNotFoundException();

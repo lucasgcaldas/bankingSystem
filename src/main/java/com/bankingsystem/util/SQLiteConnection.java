@@ -13,9 +13,10 @@ public class SQLiteConnection {
 
     public SQLiteConnection() {
         try {
-            util = new SQLiteUtil(Settings.appPath, "db/banking.db");
+            util = new SQLiteUtil(Settings.appPath, "db/bankingSystem.db");
             createTableAccount();
-            createTableTransfer();
+//            createTableTransfer();
+            createTableExtract();
             createTableUser();
             createTableGroupMessage();
             System.out.println("Connected");
@@ -35,10 +36,12 @@ public class SQLiteConnection {
         try {
             Statement st = util.con().createStatement();
             st.execute("CREATE TABLE IF NOT EXISTS tb_account(" +
+                    "pk_id INTEGER PRIMARY KEY," +
                     "kind_account STRING  NOT NULL," +
                     "balance DOUBLE," +
                     "branch INTEGER NOT NULL," +
-                    "pk_number INTEGER PRIMARY KEY NOT NULL" +
+                    "number INTEGER NOT NULL," +
+                    "user STRING NOT NULL" +
                     ");");
             st.close();
         } catch (SQLException e) {
@@ -46,18 +49,40 @@ public class SQLiteConnection {
         }
     }
 
-    public void createTableTransfer() {
+//    public void createTableTransfer() {
+//        try {
+//            Statement st = util.con().createStatement();
+//            st.execute("CREATE TABLE IF NOT EXISTS tb_transfer(" +
+//                    "kind_transfer STRING  NOT NULL," +
+//                    "origin STRING  NOT NULL," +
+//                    "ori_branch INTEGER  NOT NULL," +
+//                    "ori_number INTEGER  NOT NULL," +
+//                    "value DOUBLE  NOT NULL," +
+//                    "destiny STRING  NOT NULL," +
+//                    "des_branch INTEGER  NOT NULL," +
+//                    "des_number INTEGER  NOT NULL" +
+//                    ");");
+//            st.close();
+//        } catch (SQLException e) {
+//            e.printStackTrace();
+//        }
+//    }
+
+    public void createTableExtract() {
         try {
             Statement st = util.con().createStatement();
-            st.execute("CREATE TABLE IF NOT EXISTS tb_transfer(" +
+            st.execute("CREATE TABLE IF NOT EXISTS tb_extract(" +
                     "kind_transfer STRING  NOT NULL," +
-                    "origin STRING  NOT NULL," +
+                    "user STRING  NOT NULL," +
+//                    "origin STRING  NOT NULL," +
                     "ori_branch INTEGER  NOT NULL," +
                     "ori_number INTEGER  NOT NULL," +
                     "value DOUBLE  NOT NULL," +
-                    "destiny STRING  NOT NULL," +
+                    "user_destiny STRING  NOT NULL," +
+//                    "destiny STRING  NOT NULL," +
                     "des_branch INTEGER  NOT NULL," +
-                    "des_number INTEGER  NOT NULL" +
+                    "des_number INTEGER  NOT NULL," +
+                    "date STRING  NOT NULL" +
                     ");");
             st.close();
         } catch (SQLException e) {

@@ -141,7 +141,7 @@ public class Login extends MainWindow {
                 senha = String.valueOf(passwordEdit.getText());
                 try {
                     Main.origin = ac.checkIfExistAccountToTransfer(agencia, conta);
-                    Main.user = uc.checkIfExistUserWithPassword(senha);
+                    Main.user = uc.checkIfExistUserWithPassword(senha, conta);
                     if (Main.user != null) {
                         if (Main.origin != null) {
                             if (Objects.equals(senha, Main.user.getPassword())) {

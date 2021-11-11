@@ -27,7 +27,6 @@ public class ConfTrans extends Window {
     private BigDecimal valor;
     private String kindTransfer;
     private AccountController aC = new AccountController();
-    private Account account;
     private User user;
     private MessageBox mb;
 
@@ -40,11 +39,10 @@ public class ConfTrans extends Window {
         this.kindTransfer = kindTransfer;
     }
 
-    public ConfTrans(Integer agencia, Integer conta, BigDecimal valor, Account account, User user, String kindTransfer) {
+    public ConfTrans(Integer agencia, Integer conta, BigDecimal valor, User user, String kindTransfer) {
         this.agencia = agencia;
         this.conta = conta;
         this.valor = valor;
-        this.account = account;
         this.user = user;
         this.kindTransfer = kindTransfer;
     }
@@ -169,7 +167,7 @@ public class ConfTrans extends Window {
             if (event.target == btnCont) {
                 try {
                     if (Main.origin.getBalance().compareTo(valor) >= 0) {
-                        Main.origin.sendTransfer(kindTransfer, valor, account);
+                        Main.origin.sendTransfer(kindTransfer, valor);
                         Home.lSaldo.setText("R$ " + Main.origin.getBalance().toString());
                         Home.lSaldo.repaintNow();
                         this.unpop();

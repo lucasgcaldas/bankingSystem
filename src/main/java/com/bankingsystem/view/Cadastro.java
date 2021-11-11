@@ -162,7 +162,7 @@ public class Cadastro extends Window {
                     sA.setBranch(Integer.parseInt(String.valueOf(new BigInteger(UUID.randomUUID().toString().replace("-", ""), 16)).substring(0, 4)));
 
                     Main.user.setAccount1(sA);
-                    ac.saveAccount(sA);
+                    ac.saveAccount(sA, Main.user.getName());
                 } else if (Objects.equals(kindAccountBox.getValue(), "Corrente")) {
                     CheckingAccount cA = new CheckingAccount();
                     cA.setBalance(new BigDecimal(1000));
@@ -170,7 +170,7 @@ public class Cadastro extends Window {
                     cA.setBranch(Integer.parseInt(String.valueOf(new BigInteger(UUID.randomUUID().toString().replace("-", ""), 16)).substring(0, 4)));
 
                     Main.user.setAccount1(cA);
-                    ac.saveAccount(cA);
+                    ac.saveAccount(cA, Main.user.getName());
                 } else {
                     SavingsAccount sA = new SavingsAccount();
                     sA.setBalance(new BigDecimal(1500));
@@ -178,7 +178,7 @@ public class Cadastro extends Window {
                     sA.setBranch(Integer.parseInt(String.valueOf(new BigInteger(UUID.randomUUID().toString().replace("-", ""), 16)).substring(0, 4)));
 
                     Main.user.setAccount1(sA);
-                    ac.saveAccount(sA);
+                    ac.saveAccount(sA, Main.user.getName());
 
                     CheckingAccount cA = new CheckingAccount();
                     cA.setBalance(new BigDecimal(1000));
@@ -186,7 +186,7 @@ public class Cadastro extends Window {
                     cA.setBranch(Integer.parseInt(String.valueOf(new BigInteger(UUID.randomUUID().toString().replace("-", ""), 16)).substring(0, 4)));
 
                     Main.user.setAccount2(cA);
-                    ac.saveAccount(cA);
+                    ac.saveAccount(cA, Main.user.getName());
                 }
                 Main.user.setPassword(passwordEdit.getText());
                 uc.saveUser(Main.user);

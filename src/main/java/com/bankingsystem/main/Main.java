@@ -23,7 +23,7 @@ public class Main extends Window {
 
     public static SideMenuContainer sideMenu;
     private Button btnImage1, btnImage2;
-    public static Account origin;
+    public static Account origin, destiny;
     public static User user;
     public static Message message;
 
@@ -32,19 +32,6 @@ public class Main extends Window {
         try {
             MainWindow.getMainWindow().addTimer(100);
 
-//            SideMenuContainer.Item home = new SideMenuContainer.Item("Home", MaterialIcons._HOME, Color.BLACK, false, () -> {
-//                try {
-//                    origin = new CheckingAccount(new BigDecimal("15000.00"), 1111, 12345);
-//
-//                    destiny = new SavingsAccount(new BigDecimal("30000.00"), 2222, 56789);
-//                    destiny2 = new CheckingAccount(new BigDecimal("75000.00"), 3333, 10111);
-//
-//                    return new Home();
-//                } catch (InvalidNumberException e) {
-//                    e.printStackTrace();
-//                }
-//                return null;
-//            });
             SideMenuContainer.Item home = new SideMenuContainer.Item("Home", MaterialIcons._HOME, Color.BLACK, false, Home::new);
             home.setFont(Font.getFont("Roboto", true, 19));
 

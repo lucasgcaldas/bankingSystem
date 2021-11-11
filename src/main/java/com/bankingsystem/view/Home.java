@@ -1,15 +1,19 @@
 package com.bankingsystem.view;
 
+import com.bankingsystem.controller.ExtractAccountController;
+import com.bankingsystem.exceptions.ExtractNotFoundException;
 import com.bankingsystem.main.Main;
-import com.bankingsystem.model.Account;
+import com.bankingsystem.model.Extract;
 import com.bankingsystem.util.Colors;
-import totalcross.sys.Settings;
 import totalcross.ui.*;
+import totalcross.ui.dialog.MessageBox;
 import totalcross.ui.event.ControlEvent;
 import totalcross.ui.event.Event;
 import totalcross.ui.font.Font;
 import totalcross.ui.gfx.Color;
 import totalcross.util.UnitsConverter;
+
+import java.util.List;
 
 public class Home extends BaseScreen {
 
@@ -17,6 +21,7 @@ public class Home extends BaseScreen {
     private Button btnServices, btnTransSav, btnTransChe;
     private Button btnExtract, btnPix, btnComp, btnRecar, btnChat;
     public static Label lSaldo;
+    private MessageBox mb;
 
     @Override
     public void onContent(ScrollContainer content) {
@@ -114,6 +119,26 @@ public class Home extends BaseScreen {
             if (event.target == btnChat) {
                 ChatGroup chatGroup = new ChatGroup();
                 chatGroup.popup();
+            }
+        }
+        if (event.type == ControlEvent.PRESSED) {
+            if (event.target == btnExtract) {
+                ExtractAccountController eac = new ExtractAccountController();
+                try {
+                    List<Extract> extractList = eac.checkIfExistExtract();
+                    if (extractList.size() != 0) {
+                        ExtractView extractView = new ExtractView();
+                        extractView.popup();
+                    } else {
+                        throw new ExtractNotFoundException();
+                    }
+                } catch (ExtractNotFoundException e) {
+                    String message = "Função disponível somente após alguma tranferência";
+                    mb = new MessageBox("Extrato inexistente!", message, new String[]{"Ok!"});
+                    mb.setRect(CENTER, CENTER, SCREENSIZE + 70, SCREENSIZE + 50);
+                    mb.setBackForeColors(Colors.BACKGROUND, Colors.ON_P_300);
+                    mb.popup();
+                }
             }
         }
     }

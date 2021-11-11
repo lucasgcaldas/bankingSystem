@@ -36,16 +36,18 @@ public class UserController extends SQLiteConnection {
         }
     }
 
-    public User checkIfExistUserWithPassword(String senha) {
+    public User checkIfExistUserWithPassword(String senha, Integer conta) {
         try {
-            String sql = "SELECT * FROM tb_user WHERE password = ?";
+            String sql = "SELECT * FROM tb_user WHERE password = ? AND account1 = ? OR account2 =?";
             PreparedStatement preparedStatement = util.con().prepareStatement(sql);
             preparedStatement.setString(1, senha);
+            preparedStatement.setInt(2, conta);
+            preparedStatement.setInt(3, conta);
 
             ResultSet rs = preparedStatement.executeQuery();
 
             if (rs.isBeforeFirst()) {
-                if (Objects.equals(rs.getString("password"), senha)) {
+                if (Objects.equals(rs.getString("password"), senha) && (conta == rs.getInt("account1") || conta == rs.getInt("account2"))) {
                     user = new User();
                 }
                 user.setName(rs.getString("name"));
