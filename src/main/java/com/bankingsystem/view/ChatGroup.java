@@ -17,6 +17,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 
 public class ChatGroup extends Window {
 
@@ -77,32 +78,43 @@ public class ChatGroup extends Window {
 
             if (messagesList != null) {
                 for (Message message : messagesList) {
-                    messageDescription = messageEdit.getText();
-
-                    mesContainer = new Container();
-                    mesContainer.setBackForeColors(0xD1D1D1, Colors.ON_SURFACE);
-                    mesContainer.setBorderStyle(BORDER_ROUNDED);
-                    mesContainer.borderColor = 0xD1D1D1;
-
                     nameLabel = new Label(message.getUser().getName());
                     nameLabel.setFont(Font.getFont("Roboto", true, 15));
-                    nameLabel.setForeColor(Color.DARK);
 
                     accNumberLabel = new Label(message.getAccount().getNumber().toString());
                     accNumberLabel.setFont(Font.getFont("Roboto", true, 15));
-                    accNumberLabel.setForeColor(Color.DARK);
 
                     hourLabel = new Label(message.getHour().substring(11));
                     hourLabel.setFont(Font.getFont("Roboto", true, 15));
-                    hourLabel.setForeColor(Color.DARK);
 
                     dateLabel = new Label(message.getHour().substring(0, 11));
                     dateLabel.setFont(Font.getFont("Roboto", true, 15));
-                    dateLabel.setForeColor(Color.DARK);
 
                     messageLabel = new Label(message.getMessageDescription());
                     messageLabel.setFont(Font.getFont("Roboto", true, 15));
-                    messageLabel.setForeColor(Color.BLACK);
+                    messageDescription = messageEdit.getText();
+
+                    if (Objects.equals(message.getUser().getName(), Main.user.getName())) {
+                        mesContainer = new Container();
+                        mesContainer.setBackForeColors(Colors.PRIMARY, Colors.ON_SURFACE);
+                        mesContainer.setBorderStyle(BORDER_ROUNDED);
+                        mesContainer.borderColor = 0xD1D1D1;
+                        nameLabel.setForeColor(Color.WHITE);
+                        accNumberLabel.setForeColor(Color.WHITE);
+                        hourLabel.setForeColor(Color.WHITE);
+                        dateLabel.setForeColor(Color.WHITE);
+                        messageLabel.setForeColor(Color.WHITE);
+                    } else {
+                        mesContainer = new Container();
+                        mesContainer.setBackForeColors(0xD1D1D1, Colors.ON_SURFACE);
+                        mesContainer.setBorderStyle(BORDER_ROUNDED);
+                        mesContainer.borderColor = 0xD1D1D1;
+                        nameLabel.setForeColor(Color.DARK);
+                        accNumberLabel.setForeColor(Color.DARK);
+                        hourLabel.setForeColor(Color.DARK);
+                        dateLabel.setForeColor(Color.DARK);
+                        messageLabel.setForeColor(Color.BLACK);
+                    }
 
                     bar2.add(mesContainer, CENTER, AFTER + 10, 330, PARENTSIZE);
 
@@ -114,52 +126,6 @@ public class ChatGroup extends Window {
                     mesContainer.resizeHeight();
                 }
             }
-
-            btnSendMes.addPressListener((e) -> {
-                messageDescription = messageEdit.getText();
-
-                Main.message = new Message();
-                Main.message.setUser(Main.user);
-                Main.message.setAccount(Main.origin);
-                Main.message.setHour(sdf.format(date));
-                Main.message.setMessageDescription(messageDescription);
-                mc.saveMessage(Main.message);
-
-                mesContainer = new Container();
-                mesContainer.setBackForeColors(0xD1D1D1, Colors.ON_SURFACE);
-                mesContainer.setBorderStyle(BORDER_ROUNDED);
-                mesContainer.borderColor = 0xD1D1D1;
-
-                nameLabel = new Label(Main.message.getUser().getName());
-                nameLabel.setFont(Font.getFont("Roboto", true, 15));
-                nameLabel.setForeColor(Color.DARK);
-
-                accNumberLabel = new Label(Main.message.getAccount().getNumber().toString());
-                accNumberLabel.setFont(Font.getFont("Roboto", true, 15));
-                accNumberLabel.setForeColor(Color.DARK);
-
-                hourLabel = new Label(Main.message.getHour().substring(11));
-                hourLabel.setFont(Font.getFont("Roboto", true, 15));
-                hourLabel.setForeColor(Color.DARK);
-
-                dateLabel = new Label(Main.message.getHour().substring(0, 11));
-                dateLabel.setFont(Font.getFont("Roboto", true, 15));
-                dateLabel.setForeColor(Color.DARK);
-
-                messageLabel = new Label(messageDescription);
-                messageLabel.setFont(Font.getFont("Roboto", true, 15));
-                messageLabel.setForeColor(Color.BLACK);
-
-                bar2.add(mesContainer, CENTER, AFTER + 10, PARENTSIZE, PARENTSIZE);
-
-                mesContainer.add(nameLabel, LEFT + 5, TOP);
-                mesContainer.add(accNumberLabel, RIGHT - 5, SAME);
-                mesContainer.add(messageLabel, LEFT + 5, AFTER);
-                mesContainer.add(hourLabel, RIGHT - 5, AFTER);
-                mesContainer.add(dateLabel, LEFT + 5, SAME);
-                mesContainer.resizeHeight();
-            });
-
         } catch (Exception e) {
             MessageBox.showException(e, true);
         }
@@ -170,6 +136,53 @@ public class ChatGroup extends Window {
         if (event.type == ControlEvent.PRESSED) {
             if (event.target == btnImage) {
                 this.unpop();
+            }
+        }
+        if (event.type == ControlEvent.PRESSED) {
+            if (event.target == btnSendMes) {
+                messageDescription = messageEdit.getText();
+                messageEdit.clear();
+
+                Main.message = new Message();
+                Main.message.setUser(Main.user);
+                Main.message.setAccount(Main.origin);
+                Main.message.setHour(sdf.format(date));
+                Main.message.setMessageDescription(messageDescription);
+                mc.saveMessage(Main.message);
+
+                mesContainer = new Container();
+                mesContainer.setBackForeColors(Colors.PRIMARY, Colors.ON_SURFACE);
+                mesContainer.setBorderStyle(BORDER_ROUNDED);
+                mesContainer.borderColor = 0xD1D1D1;
+
+                nameLabel = new Label(Main.message.getUser().getName());
+                nameLabel.setFont(Font.getFont("Roboto", true, 15));
+                nameLabel.setForeColor(Color.WHITE);
+
+                accNumberLabel = new Label(Main.message.getAccount().getNumber().toString());
+                accNumberLabel.setFont(Font.getFont("Roboto", true, 15));
+                accNumberLabel.setForeColor(Color.WHITE);
+
+                hourLabel = new Label(Main.message.getHour().substring(11));
+                hourLabel.setFont(Font.getFont("Roboto", true, 15));
+                hourLabel.setForeColor(Color.WHITE);
+
+                dateLabel = new Label(Main.message.getHour().substring(0, 11));
+                dateLabel.setFont(Font.getFont("Roboto", true, 15));
+                dateLabel.setForeColor(Color.WHITE);
+
+                messageLabel = new Label(messageDescription);
+                messageLabel.setFont(Font.getFont("Roboto", true, 15));
+                messageLabel.setForeColor(Color.WHITE);
+
+                bar2.add(mesContainer, CENTER, AFTER + 10, PARENTSIZE, PARENTSIZE);
+
+                mesContainer.add(nameLabel, LEFT + 5, TOP);
+                mesContainer.add(accNumberLabel, RIGHT - 5, SAME);
+                mesContainer.add(messageLabel, LEFT + 5, AFTER);
+                mesContainer.add(hourLabel, RIGHT - 5, AFTER);
+                mesContainer.add(dateLabel, LEFT + 5, SAME);
+                mesContainer.resizeHeight();
             }
         }
     }
