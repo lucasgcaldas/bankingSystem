@@ -1,8 +1,7 @@
 package com.bankingsystem.view;
 
 import com.bankingsystem.controller.AccountController;
-import com.bankingsystem.main.Main;
-import com.bankingsystem.model.Account;
+import com.bankingsystem.util.SlideMenu;
 import com.bankingsystem.model.User;
 import com.bankingsystem.util.Colors;
 import totalcross.ui.*;
@@ -166,9 +165,9 @@ public class ConfTrans extends Window {
         if (event.type == ControlEvent.PRESSED) {
             if (event.target == btnCont) {
                 try {
-                    if (Main.origin.getBalance().compareTo(valor) >= 0) {
-                        Main.origin.sendTransfer(kindTransfer, valor);
-                        Home.lSaldo.setText("R$ " + Main.origin.getBalance().toString());
+                    if (Login.origin.getBalance().compareTo(valor) >= 0) {
+                        Login.origin.sendTransfer(kindTransfer, valor);
+                        Home.lSaldo.setText("R$ " + Login.origin.getBalance().toString());
                         Home.lSaldo.repaintNow();
                         this.unpop();
                         if (Objects.equals(kindTransfer, "TransferSav")) {

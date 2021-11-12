@@ -2,7 +2,8 @@ package com.bankingsystem.model;
 
 import com.bankingsystem.controller.ExtractAccountController;
 import com.bankingsystem.controller.UserController;
-import com.bankingsystem.main.Main;
+import com.bankingsystem.util.SlideMenu;
+import com.bankingsystem.view.Login;
 import totalcross.util.BigDecimal;
 
 import java.text.SimpleDateFormat;
@@ -49,15 +50,15 @@ public abstract class Account {
     }
 
     public void receivedTransfer(BigDecimal value) {
-        Main.destiny.setBalance(Main.destiny.getBalance().add(value));
+        Login.destiny.setBalance(Login.destiny.getBalance().add(value));
     }
 
     public void sendTransfer(String kindTransfer, BigDecimal value) {
 
-        if (Main.origin.getBalance().compareTo(value) >= 0) {
+        if (Login.origin.getBalance().compareTo(value) >= 0) {
 
-            Main.origin.setBalance(this.balance.subtract(value));
-            Main.destiny.receivedTransfer(value);
+            Login.origin.setBalance(this.balance.subtract(value));
+            Login.destiny.receivedTransfer(value);
 
             UserController uc = new UserController();
             ExtractAccountController eAC = new ExtractAccountController();
@@ -66,14 +67,14 @@ public abstract class Account {
             Date date = new Date();
             Extract extract = new Extract();
 
-            User user = uc.checkIfExistUserToTrans(Main.destiny.getNumber());
+            User user = uc.checkIfExistUserToTrans(Login.destiny.getNumber());
 
-            extract.setUser(Main.user);
+            extract.setUser(Login.user);
             extract.setUserDestiny(user);
             extract.setValue(value);
             extract.setDate(sdf.format(date));
 
-            eAC.saveTransfer(extract, kindTransfer, Main.destiny.getNumber());
+            eAC.saveTransfer(extract, kindTransfer, Login.destiny.getNumber());
         }
     }
 }

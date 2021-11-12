@@ -3,8 +3,7 @@ package com.bankingsystem.view;
 import com.bankingsystem.controller.AccountController;
 import com.bankingsystem.controller.UserController;
 import com.bankingsystem.exceptions.AccountNotFoundException;
-import com.bankingsystem.main.Main;
-import com.bankingsystem.model.Account;
+import com.bankingsystem.util.SlideMenu;
 import com.bankingsystem.model.User;
 import com.bankingsystem.util.Colors;
 import totalcross.sys.InvalidNumberException;
@@ -28,9 +27,8 @@ public class TransferSav extends Window {
     private BigDecimal valor;
     private String kindTransfer;
     private AccountController aC = new AccountController();
-    private Account account;
-    private MessageBox mb;
     private UserController uc = new UserController();
+    private MessageBox mb;
 
     private int GAP = UnitsConverter.toPixels(DP + 20);
 
@@ -154,10 +152,10 @@ public class TransferSav extends Window {
                     agencia = Integer.parseInt(ageEdit.getText());
                     conta = Integer.parseInt(contEdit.getText());
                     valor = BigDecimal.valueOf(Double.parseDouble(valEdit.getText()));
-                    Main.destiny = aC.checkIfExistAccountToTransfer(agencia, conta);
+                    Login.destiny = aC.checkIfExistAccountToTransfer(agencia, conta);
                     User user = uc.checkIfExistUserToTrans(conta);
 
-                    if (Main.destiny.getClass().getName().substring(24).equals("SavingsAccount")) {
+                    if (Login.destiny.getClass().getName().substring(24).equals("SavingsAccount")) {
                         ConfTrans confTrans = new ConfTrans(agencia, conta, valor, user, this.getClass().getName().substring(23));
                         confTrans.popup();
                     } else {

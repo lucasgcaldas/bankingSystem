@@ -1,7 +1,6 @@
 package com.bankingsystem.controller;
 
 import com.bankingsystem.model.Message;
-import com.bankingsystem.model.User;
 import com.bankingsystem.util.SQLiteConnection;
 import totalcross.sql.PreparedStatement;
 import totalcross.sql.ResultSet;
@@ -9,7 +8,6 @@ import totalcross.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 public class MessageController extends SQLiteConnection {
 

@@ -1,7 +1,7 @@
 package com.bankingsystem.view;
 
 import com.bankingsystem.controller.UserController;
-import com.bankingsystem.main.Main;
+import com.bankingsystem.util.SlideMenu;
 import com.bankingsystem.util.Colors;
 import totalcross.ui.*;
 import totalcross.ui.dialog.MessageBox;
@@ -120,8 +120,8 @@ public class Password extends Window {
                     nome = nameEdit.getText();
                     senhaAntiga = antigaEdit.getText();
                     senhaNova = novaEdit.getText();
-                    Main.user = uc.checkIfExistUser(nome, senhaAntiga, senhaNova);
-                    if (Main.user == null) {
+                    Login.user = uc.checkIfExistUser(nome, senhaAntiga, senhaNova);
+                    if (Login.user == null) {
                         throw new NullPointerException();
                     } else {
                         this.unpop();

@@ -1,6 +1,5 @@
 package com.bankingsystem;
 
-import com.bankingsystem.main.Main;
 import com.bankingsystem.view.Login;
 import totalcross.TotalCrossApplication;
 import totalcross.sys.InvalidNumberException;

@@ -1,13 +1,6 @@
-package com.bankingsystem.main;
+package com.bankingsystem.util;
 
-import com.bankingsystem.model.*;
-import com.bankingsystem.util.Colors;
-import com.bankingsystem.util.SQLiteConnection;
 import com.bankingsystem.view.Home;
-import com.bankingsystem.view.Login;
-import com.bankingsystem.view.Password;
-import totalcross.sys.InvalidNumberException;
-import totalcross.sys.Settings;
 import totalcross.ui.*;
 import totalcross.ui.dialog.MessageBox;
 import totalcross.ui.event.ControlEvent;
@@ -16,16 +9,13 @@ import totalcross.ui.font.Font;
 import totalcross.ui.gfx.Color;
 import totalcross.ui.icon.MaterialIcons;
 import totalcross.ui.image.Image;
-import totalcross.util.BigDecimal;
 import totalcross.util.UnitsConverter;
 
-public class Main extends Window {
+public class SlideMenu extends Window {
 
     public static SideMenuContainer sideMenu;
     private Button btnImage1, btnImage2;
-    public static Account origin, destiny;
-    public static User user;
-    public static Message message;
+    private MessageBox mb;
 
     @Override
     public void onPopup() {
@@ -71,6 +61,23 @@ public class Main extends Window {
 
         } catch (Exception e) {
             MessageBox.showException(e, true);
+        }
+    }
+
+    public void onEvent(Event event) {
+        if (event.type == ControlEvent.PRESSED) {
+            if (event.target == btnImage1) {
+                String message = "Você ainda não possui notificações!";
+                mb = new MessageBox("Sem notificações!", message, new String[]{"Ok!"});
+                mb.setRect(CENTER, CENTER, SCREENSIZE + 70, SCREENSIZE + 50);
+                mb.setBackForeColors(Colors.BACKGROUND, Colors.ON_P_300);
+                mb.popup();
+            }
+        }
+        if (event.type == ControlEvent.PRESSED) {
+            if (event.target == btnImage2) {
+                this.unpop();
+            }
         }
     }
 }

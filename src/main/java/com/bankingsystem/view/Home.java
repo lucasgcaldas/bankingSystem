@@ -2,7 +2,7 @@ package com.bankingsystem.view;
 
 import com.bankingsystem.controller.ExtractAccountController;
 import com.bankingsystem.exceptions.ExtractNotFoundException;
-import com.bankingsystem.main.Main;
+import com.bankingsystem.util.SlideMenu;
 import com.bankingsystem.model.Extract;
 import com.bankingsystem.util.Colors;
 import totalcross.ui.*;
@@ -42,7 +42,7 @@ public class Home extends BaseScreen {
             bar2.setBackColor(Colors.PRIMARY);
             add(bar2, LEFT, AFTER, PARENTSIZE, DP + 45);
 
-            lSaldo = new Label("R$ " + Main.origin.getBalance().toString(), LEFT);
+            lSaldo = new Label("R$ " + Login.origin.getBalance().toString(), LEFT);
             lSaldo.setFont(Font.getFont("Roboto", true, 17));
             lSaldo.setForeColor(Color.WHITE);
             bar2.add(lSaldo, LEFT + 16, AFTER, PARENTSIZE + 50, PREFERRED);
@@ -52,42 +52,51 @@ public class Home extends BaseScreen {
             btnServices = new Button("Meus Serviços");
             btnServices.setFont(Font.getFont("Roboto", true, 16));
             btnServices.setBackForeColors(Color.WHITE, Colors.PRIMARY);
-            btnServices.roundBorderFactor = 14;
+//            btnServices.setBorder(BORDER_ROUNDED);
+//            btnServices.roundBorderFactor = 5;
 
             btnTransSav = new Button("Transfer (Poupança)");
             btnTransSav.setFont(Font.getFont("Roboto", true, 16));
             btnTransSav.setBackForeColors(Color.WHITE, 0x908390);
-            btnTransSav.roundBorderFactor = 14;
+//            btnTransSav.setBorder(BORDER_ROUNDED);
+//            btnTransSav.roundBorderFactor = 5;
 
             btnTransChe = new Button("Transfer (Corrente)");
             btnTransChe.setFont(Font.getFont("Roboto", true, 16));
             btnTransChe.setBackForeColors(Color.WHITE, 0x908390);
-            btnTransChe.roundBorderFactor = 14;
+//            btnTransChe.setBorder(BORDER_ROUNDED);
+//            btnTransChe.roundBorderFactor = 5;
 
             btnExtract = new Button("Extrato");
             btnExtract.setFont(Font.getFont("Roboto", true, 16));
             btnExtract.setBackForeColors(Color.WHITE, 0x908390);
-            btnExtract.roundBorderFactor = 14;
+//            btnExtract.setBorder(BORDER_ROUNDED);
+//            btnExtract.roundBorderFactor = 5;
 
             btnPix = new Button("Pix");
             btnPix.setFont(Font.getFont("Roboto", true, 16));
             btnPix.setBackForeColors(Color.WHITE, 0x908390);
-            btnPix.roundBorderFactor = 14;
+//            btnPix.setBorder(BORDER_ROUNDED);
+//            btnPix.roundBorderFactor = 5;
 
             btnComp = new Button("Comprovantes");
             btnComp.setFont(Font.getFont("Roboto", true, 16));
             btnComp.setBackForeColors(Color.WHITE, 0x908390);
-            btnComp.roundBorderFactor = 14;
+//            btnComp.setBorder(BORDER_ROUNDED);
+//            btnComp.roundBorderFactor = 5;
 
             btnRecar = new Button("Recargas");
             btnRecar.setFont(Font.getFont("Roboto", true, 16));
             btnRecar.setBackForeColors(Color.WHITE, 0x908390);
-            btnRecar.roundBorderFactor = 14;
+//            btnRecar.setBorder(BORDER_ROUNDED);
+//            btnRecar.roundBorderFactor = 5;
 
             btnChat = new Button("Chat em grupo");
             btnChat.setFont(Font.getFont("Roboto", true, 16));
             btnChat.setBackForeColors(Color.WHITE, Colors.PRIMARY);
-            btnChat.roundBorderFactor = 14;
+//            btnChat.borderColor = 0x908390;
+//            btnChat.setBorder(BORDER_ROUNDED);
+//            btnChat.roundBorderFactor = 5;
 
             bar3.add(btnServices, CENTER, AFTER + UnitsConverter.toPixels(DP + 8), 328, 50);
             bar3.add(btnTransSav, LEFT + 16, AFTER + UnitsConverter.toPixels(DP + 8), 155, 108);
@@ -109,7 +118,8 @@ public class Home extends BaseScreen {
                 TransferSav transferSav = new TransferSav(btnTransSav.getText());
                 transferSav.popup();
             }
-        }if (event.type == ControlEvent.PRESSED) {
+        }
+        if (event.type == ControlEvent.PRESSED) {
             if (event.target == btnTransChe) {
                 TransferChe transferChe = new TransferChe(btnTransChe.getText());
                 transferChe.popup();

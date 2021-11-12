@@ -1,7 +1,7 @@
 package com.bankingsystem.view;
 
 import com.bankingsystem.controller.MessageController;
-import com.bankingsystem.main.Main;
+import com.bankingsystem.util.SlideMenu;
 import com.bankingsystem.model.Message;
 import com.bankingsystem.util.Colors;
 import totalcross.ui.*;
@@ -94,7 +94,7 @@ public class ChatGroup extends Window {
                     messageLabel.setFont(Font.getFont("Roboto", true, 15));
                     messageDescription = messageEdit.getText();
 
-                    if (Objects.equals(message.getUser().getName(), Main.user.getName())) {
+                    if (Objects.equals(message.getUser().getName(), Login.user.getName())) {
                         mesContainer = new Container();
                         mesContainer.setBackForeColors(Colors.PRIMARY, Colors.ON_SURFACE);
                         mesContainer.setBorderStyle(BORDER_ROUNDED);
@@ -143,31 +143,31 @@ public class ChatGroup extends Window {
                 messageDescription = messageEdit.getText();
                 messageEdit.clear();
 
-                Main.message = new Message();
-                Main.message.setUser(Main.user);
-                Main.message.setAccount(Main.origin);
-                Main.message.setHour(sdf.format(date));
-                Main.message.setMessageDescription(messageDescription);
-                mc.saveMessage(Main.message);
+                Login.message = new Message();
+                Login.message.setUser(Login.user);
+                Login.message.setAccount(Login.origin);
+                Login.message.setHour(sdf.format(date));
+                Login.message.setMessageDescription(messageDescription);
+                mc.saveMessage(Login.message);
 
                 mesContainer = new Container();
                 mesContainer.setBackForeColors(Colors.PRIMARY, Colors.ON_SURFACE);
                 mesContainer.setBorderStyle(BORDER_ROUNDED);
                 mesContainer.borderColor = 0xD1D1D1;
 
-                nameLabel = new Label(Main.message.getUser().getName());
+                nameLabel = new Label(Login.message.getUser().getName());
                 nameLabel.setFont(Font.getFont("Roboto", true, 15));
                 nameLabel.setForeColor(Color.WHITE);
 
-                accNumberLabel = new Label(Main.message.getAccount().getNumber().toString());
+                accNumberLabel = new Label(Login.message.getAccount().getNumber().toString());
                 accNumberLabel.setFont(Font.getFont("Roboto", true, 15));
                 accNumberLabel.setForeColor(Color.WHITE);
 
-                hourLabel = new Label(Main.message.getHour().substring(11));
+                hourLabel = new Label(Login.message.getHour().substring(11));
                 hourLabel.setFont(Font.getFont("Roboto", true, 15));
                 hourLabel.setForeColor(Color.WHITE);
 
-                dateLabel = new Label(Main.message.getHour().substring(0, 11));
+                dateLabel = new Label(Login.message.getHour().substring(0, 11));
                 dateLabel.setFont(Font.getFont("Roboto", true, 15));
                 dateLabel.setForeColor(Color.WHITE);
 

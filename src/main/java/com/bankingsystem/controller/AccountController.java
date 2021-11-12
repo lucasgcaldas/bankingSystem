@@ -19,7 +19,7 @@ public class AccountController extends SQLiteConnection {
             String sql = "INSERT INTO tb_account VALUES (?, ?, ?, ?, ?, ?)";
             PreparedStatement preparedStatement = util.con().prepareStatement(sql);
 
-            if (account.getClass().getName().substring(24).equals("SavingsAccount")){
+            if (account.getClass().getName().substring(24).equals("SavingsAccount")) {
                 preparedStatement.setString(2, "Conta Poupança");
             } else {
                 preparedStatement.setString(2, "Conta Corrente");
@@ -33,48 +33,6 @@ public class AccountController extends SQLiteConnection {
             preparedStatement.close();
         } catch (SQLException e) {
             e.printStackTrace();
-        }
-    }
-
-//    public void checkIfExistAccount(Account account) {
-//        try {
-//            String sql = "SELECT * FROM tb_account WHERE pk_number = ?";
-//            PreparedStatement preparedStatement = util.con().prepareStatement(sql);
-//            preparedStatement.setInt(1, account.getNumber());
-//            ResultSet rs = preparedStatement.executeQuery();
-//
-//            if (!rs.isBeforeFirst()) {
-//                saveAccount(account);
-//            } else {
-//                account.setBalance(rs.getBigDecimal("balance"));
-//                account.setBranch(rs.getInt("branch"));
-//                account.setNumber(rs.getInt("pk_number"));
-//                updateAccount(account);
-//            }
-//            preparedStatement.close();
-//            rs.close();
-//
-//        } catch (SQLException e) {
-//            e.printStackTrace();
-//        }
-//    }
-
-    public void updateAccount(Account account) {
-        try {
-            String sql = "UPDATE tb_account" +
-                    " SET " +
-                    " balance = ?" +
-                    " WHERE pk_number = ?";
-            PreparedStatement preparedStatement = util.con().prepareStatement(sql);
-
-            preparedStatement.setBigDecimal(1, account.getBalance());
-            preparedStatement.setInt(2, account.getNumber());
-
-            preparedStatement.executeUpdate();
-            preparedStatement.close();
-        } catch (SQLException e) {
-            e.printStackTrace();
-            System.err.println(e.getMessage());
         }
     }
 

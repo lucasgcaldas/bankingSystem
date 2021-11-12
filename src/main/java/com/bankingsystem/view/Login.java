@@ -2,7 +2,10 @@ package com.bankingsystem.view;
 
 import com.bankingsystem.controller.AccountController;
 import com.bankingsystem.controller.UserController;
-import com.bankingsystem.main.Main;
+import com.bankingsystem.model.Account;
+import com.bankingsystem.model.Message;
+import com.bankingsystem.model.User;
+import com.bankingsystem.util.SlideMenu;
 import com.bankingsystem.util.Colors;
 import com.bankingsystem.util.SQLiteConnection;
 import totalcross.sys.InvalidNumberException;
@@ -20,6 +23,9 @@ import java.util.Objects;
 
 public class Login extends MainWindow {
 
+    public static Account origin, destiny;
+    public static User user;
+    public static Message message;
     private int GAP = UnitsConverter.toPixels(DP + 20);
     private ImageControl imageControl;
     private Container bar1, bar2;
@@ -33,6 +39,7 @@ public class Login extends MainWindow {
     private String senha;
 
     public Login() {
+//        setUIStyle(Settings.HOLO_UI);
         setUIStyle(Settings.MATERIAL_UI);
         setBackForeColors(Colors.BACKGROUND, Colors.SURFACE);
     }
@@ -136,17 +143,19 @@ public class Login extends MainWindow {
     public void onEvent(Event event) {
         if (event.type == ControlEvent.PRESSED) {
             if (event.target == btnConf) {
-                agencia = Integer.parseInt(ageEdit.getText());
-                conta = Integer.parseInt(contEdit.getText());
-                senha = String.valueOf(passwordEdit.getText());
                 try {
-                    Main.origin = ac.checkIfExistAccountToTransfer(agencia, conta);
-                    Main.user = uc.checkIfExistUserWithPassword(senha, conta);
-                    if (Main.user != null) {
-                        if (Main.origin != null) {
-                            if (Objects.equals(senha, Main.user.getPassword())) {
-                                Main main = new Main();
-                                main.popup();
+                    if (!ageEdit.getText().matches("") || !contEdit.getText().matches("") || !passwordEdit.getText().matches("")) {
+                        agencia = Integer.parseInt(ageEdit.getText());
+                        conta = Integer.parseInt(contEdit.getText());
+                        senha = String.valueOf(passwordEdit.getText());
+                    }
+                    Login.origin = ac.checkIfExistAccountToTransfer(agencia, conta);
+                    Login.user = uc.checkIfExistUserWithPassword(senha, conta);
+                    if (Login.user != null) {
+                        if (Login.origin != null) {
+                            if (Objects.equals(senha, Login.user.getPassword())) {
+                                SlideMenu slideMenu = new SlideMenu();
+                                slideMenu.popup();
                             }
                         } else {
                             throw new NullPointerException();
@@ -166,6 +175,12 @@ public class Login extends MainWindow {
                     mb.setRect(CENTER, CENTER, SCREENSIZE + 70, SCREENSIZE + 50);
                     mb.setBackForeColors(Colors.BACKGROUND, Colors.ON_P_300);
                     mb.popup();
+                } catch (NumberFormatException e) {
+                    String message = "Preencha todos os campos com seus dados!";
+                    mb = new MessageBox("Campos vazios!", message, new String[]{"Ok!"});
+                    mb.setRect(CENTER, CENTER, SCREENSIZE + 70, SCREENSIZE + 50);
+                    mb.setBackForeColors(Colors.BACKGROUND, Colors.ON_P_300);
+                    mb.popup();
                 }
             }
         }
@@ -179,7 +194,6 @@ public class Login extends MainWindow {
             if (event.target == btnChangePassword) {
                 Password password = new Password();
                 password.popup();
-//                uc.updatePassword(Main.user);
             }
         }
     }

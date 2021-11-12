@@ -15,7 +15,6 @@ public class SQLiteConnection {
         try {
             util = new SQLiteUtil(Settings.appPath, "db/bankingSystem.db");
             createTableAccount();
-//            createTableTransfer();
             createTableExtract();
             createTableUser();
             createTableGroupMessage();
@@ -49,37 +48,16 @@ public class SQLiteConnection {
         }
     }
 
-//    public void createTableTransfer() {
-//        try {
-//            Statement st = util.con().createStatement();
-//            st.execute("CREATE TABLE IF NOT EXISTS tb_transfer(" +
-//                    "kind_transfer STRING  NOT NULL," +
-//                    "origin STRING  NOT NULL," +
-//                    "ori_branch INTEGER  NOT NULL," +
-//                    "ori_number INTEGER  NOT NULL," +
-//                    "value DOUBLE  NOT NULL," +
-//                    "destiny STRING  NOT NULL," +
-//                    "des_branch INTEGER  NOT NULL," +
-//                    "des_number INTEGER  NOT NULL" +
-//                    ");");
-//            st.close();
-//        } catch (SQLException e) {
-//            e.printStackTrace();
-//        }
-//    }
-
     public void createTableExtract() {
         try {
             Statement st = util.con().createStatement();
             st.execute("CREATE TABLE IF NOT EXISTS tb_extract(" +
                     "kind_transfer STRING  NOT NULL," +
                     "user STRING  NOT NULL," +
-//                    "origin STRING  NOT NULL," +
                     "ori_branch INTEGER  NOT NULL," +
                     "ori_number INTEGER  NOT NULL," +
                     "value DOUBLE  NOT NULL," +
                     "user_destiny STRING  NOT NULL," +
-//                    "destiny STRING  NOT NULL," +
                     "des_branch INTEGER  NOT NULL," +
                     "des_number INTEGER  NOT NULL," +
                     "date STRING  NOT NULL" +

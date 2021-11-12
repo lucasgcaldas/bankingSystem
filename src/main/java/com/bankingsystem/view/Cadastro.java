@@ -2,8 +2,7 @@ package com.bankingsystem.view;
 
 import com.bankingsystem.controller.AccountController;
 import com.bankingsystem.controller.UserController;
-import com.bankingsystem.main.Main;
-import com.bankingsystem.model.Account;
+import com.bankingsystem.util.SlideMenu;
 import com.bankingsystem.model.CheckingAccount;
 import com.bankingsystem.model.SavingsAccount;
 import com.bankingsystem.model.User;
@@ -16,11 +15,11 @@ import totalcross.ui.font.Font;
 import totalcross.ui.gfx.Color;
 import totalcross.ui.image.Image;
 import totalcross.util.BigDecimal;
-import totalcross.util.Date;
 import totalcross.util.UnitsConverter;
 
 import java.math.BigInteger;
-import java.util.*;
+import java.util.Objects;
+import java.util.UUID;
 
 public class Cadastro extends Window {
 
@@ -104,7 +103,7 @@ public class Cadastro extends Window {
             dateEdit.setBackForeColors(Color.DARK, Color.BLACK);
             Edit.useNativeNumericPad = true;
 
-            kindAccountBox = new ComboBox(new String[] {"Corrente", "Poupança", "Ambas"});
+            kindAccountBox = new ComboBox(new String[]{"Corrente", "Poupança", "Ambas"});
             kindAccountBox.setBackColor(0xD1D1D1);
 
             passwordEdit = new Edit();
@@ -153,52 +152,52 @@ public class Cadastro extends Window {
             if (event.target == btnConf) {
                 try {
                     if (!nameEdit.getText().matches("") || !cpfEdit.getText().matches("") || !dateEdit.getText().matches("")
-                        || !kindAccountBox.getValue().toString().matches("") || !passwordEdit.getText().matches("")) {
+                            || !kindAccountBox.getValue().toString().matches("") || !passwordEdit.getText().matches("")) {
 
-                        Main.user = new User();
-                        Main.user.setName(nameEdit.getText());
-                        Main.user.setCpf(cpfEdit.getText());
-                        Main.user.setBirthDate(dateEdit.getText());
+                        Login.user = new User();
+                        Login.user.setName(nameEdit.getText());
+                        Login.user.setCpf(cpfEdit.getText());
+                        Login.user.setBirthDate(dateEdit.getText());
 
-                        if (Objects.equals(kindAccountBox.getValue(), "Poupança")){
+                        if (Objects.equals(kindAccountBox.getValue(), "Poupança")) {
                             SavingsAccount sA = new SavingsAccount();
                             sA.setBalance(new BigDecimal(1500));
                             sA.setNumber(Integer.parseInt(String.valueOf(new BigInteger(UUID.randomUUID().toString().replace("-", ""), 16)).substring(0, 6)));
                             sA.setBranch(Integer.parseInt(String.valueOf(new BigInteger(UUID.randomUUID().toString().replace("-", ""), 16)).substring(0, 4)));
 
-                            Main.user.setAccount1(sA);
-                            ac.saveAccount(sA, Main.user.getName());
+                            Login.user.setAccount1(sA);
+                            ac.saveAccount(sA, Login.user.getName());
                         } else if (Objects.equals(kindAccountBox.getValue(), "Corrente")) {
                             CheckingAccount cA = new CheckingAccount();
                             cA.setBalance(new BigDecimal(1000));
                             cA.setNumber(Integer.parseInt(String.valueOf(new BigInteger(UUID.randomUUID().toString().replace("-", ""), 16)).substring(0, 6)));
                             cA.setBranch(Integer.parseInt(String.valueOf(new BigInteger(UUID.randomUUID().toString().replace("-", ""), 16)).substring(0, 4)));
 
-                            Main.user.setAccount1(cA);
-                            ac.saveAccount(cA, Main.user.getName());
+                            Login.user.setAccount1(cA);
+                            ac.saveAccount(cA, Login.user.getName());
                         } else {
                             SavingsAccount sA = new SavingsAccount();
                             sA.setBalance(new BigDecimal(1500));
                             sA.setNumber(Integer.parseInt(String.valueOf(new BigInteger(UUID.randomUUID().toString().replace("-", ""), 16)).substring(0, 6)));
                             sA.setBranch(Integer.parseInt(String.valueOf(new BigInteger(UUID.randomUUID().toString().replace("-", ""), 16)).substring(0, 4)));
 
-                            Main.user.setAccount1(sA);
-                            ac.saveAccount(sA, Main.user.getName());
+                            Login.user.setAccount1(sA);
+                            ac.saveAccount(sA, Login.user.getName());
 
                             CheckingAccount cA = new CheckingAccount();
                             cA.setBalance(new BigDecimal(1000));
                             cA.setNumber(Integer.parseInt(String.valueOf(new BigInteger(UUID.randomUUID().toString().replace("-", ""), 16)).substring(0, 6)));
                             cA.setBranch(Integer.parseInt(String.valueOf(new BigInteger(UUID.randomUUID().toString().replace("-", ""), 16)).substring(0, 4)));
 
-                            Main.user.setAccount2(cA);
-                            ac.saveAccount(cA, Main.user.getName());
+                            Login.user.setAccount2(cA);
+                            ac.saveAccount(cA, Login.user.getName());
                         }
-                        Main.user.setPassword(passwordEdit.getText());
-                        uc.saveUser(Main.user);
+                        Login.user.setPassword(passwordEdit.getText());
+                        uc.saveUser(Login.user);
 
                         this.unpop();
 
-                    }else {
+                    } else {
                         throw new NullPointerException();
                     }
                 } catch (NullPointerException e) {

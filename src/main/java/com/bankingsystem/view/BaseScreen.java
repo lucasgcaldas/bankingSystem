@@ -19,10 +19,6 @@ public abstract class BaseScreen extends Container {
     private Button btnImage1;
     private Button btnImage2;
 
-    public BaseScreen(boolean showBar) {
-        this.showBar = showBar;
-    }
-
     public BaseScreen() {
 
     }

@@ -1,11 +1,8 @@
 package com.bankingsystem.view;
 
-import com.bankingsystem.controller.AccountController;
 import com.bankingsystem.controller.ExtractAccountController;
-import com.bankingsystem.main.Main;
-import com.bankingsystem.model.Account;
+import com.bankingsystem.util.SlideMenu;
 import com.bankingsystem.model.Extract;
-import com.bankingsystem.model.User;
 import com.bankingsystem.util.Colors;
 import totalcross.ui.*;
 import totalcross.ui.dialog.MessageBox;
@@ -14,7 +11,6 @@ import totalcross.ui.event.Event;
 import totalcross.ui.font.Font;
 import totalcross.ui.gfx.Color;
 import totalcross.ui.image.Image;
-import totalcross.util.BigDecimal;
 import totalcross.util.UnitsConverter;
 
 import java.util.ArrayList;
@@ -69,7 +65,7 @@ public class ExtractView extends Window {
             nameLabel.setFont(Font.getFont("Roboto", true, 16));
             nameLabel.setForeColor(Color.DARK);
 
-            setNameLabel = new Label(Main.user.getName());
+            setNameLabel = new Label(Login.user.getName());
             setNameLabel.setFont(Font.getFont("Roboto", true, 15));
             setNameLabel.setForeColor(Color.DARK);
 
@@ -77,7 +73,7 @@ public class ExtractView extends Window {
             cpfLabel.setFont(Font.getFont("Roboto", true, 16));
             cpfLabel.setForeColor(Color.DARK);
 
-            setCpfLabel = new Label(Main.user.getCpf());
+            setCpfLabel = new Label(Login.user.getCpf());
             setCpfLabel.setFont(Font.getFont("Roboto", true, 15));
             setCpfLabel.setForeColor(Color.DARK);
 
@@ -85,7 +81,7 @@ public class ExtractView extends Window {
             ageLabel.setFont(Font.getFont("Roboto", true, 16));
             ageLabel.setForeColor(Color.DARK);
 
-            setAgeLabel = new Label(Main.origin.getBranch().toString());
+            setAgeLabel = new Label(Login.origin.getBranch().toString());
             setAgeLabel.setFont(Font.getFont("Roboto", true, 15));
             setAgeLabel.setForeColor(Color.DARK);
 
@@ -93,7 +89,7 @@ public class ExtractView extends Window {
             contLabel.setFont(Font.getFont("Roboto", true, 16));
             contLabel.setForeColor(Color.DARK);
 
-            setContLabel = new Label(Main.origin.getNumber().toString());
+            setContLabel = new Label(Login.origin.getNumber().toString());
             setContLabel.setFont(Font.getFont("Roboto", true, 15));
             setContLabel.setForeColor(Color.DARK);
 
