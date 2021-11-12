@@ -1,7 +1,7 @@
 package com.bankingsystem.view;
 
+import com.bankingsystem.BankingSystem;
 import com.bankingsystem.controller.UserController;
-import com.bankingsystem.util.SlideMenu;
 import com.bankingsystem.util.Colors;
 import totalcross.ui.*;
 import totalcross.ui.dialog.MessageBox;
@@ -103,37 +103,34 @@ public class Password extends Window {
             add(btnLogin, LEFT + 24, BOTTOM - 21, 151, 50);
             add(btnConf, RIGHT - 24, BOTTOM - 21, 151, 50);
 
+            actionButton();
         } catch (Exception e) {
             MessageBox.showException(e, true);
         }
     }
 
-    public void onEvent(Event event) {
-        if (event.type == ControlEvent.PRESSED) {
-            if (event.target == btnLogin) {
-                this.unpop();
-            }
-        }
-        if (event.type == ControlEvent.PRESSED) {
-            if (event.target == btnConf) {
-                try {
-                    nome = nameEdit.getText();
-                    senhaAntiga = antigaEdit.getText();
-                    senhaNova = novaEdit.getText();
-                    Login.user = uc.checkIfExistUser(nome, senhaAntiga, senhaNova);
-                    if (Login.user == null) {
-                        throw new NullPointerException();
-                    } else {
-                        this.unpop();
-                    }
-                } catch (NullPointerException e) {
-                    String message = "Tente inserir corretamente os dados";
-                    mb = new MessageBox("As senhas não conferem!", message, new String[]{"Ok!"});
-                    mb.setRect(CENTER, CENTER, SCREENSIZE + 70, SCREENSIZE + 50);
-                    mb.setBackForeColors(Colors.BACKGROUND, Colors.ON_P_300);
-                    mb.popup();
+    public void actionButton() {
+        btnLogin.addPressListener((event) -> this.unpop());
+
+        btnConf.addPressListener((event) -> {
+            try {
+                nome = nameEdit.getText();
+                senhaAntiga = antigaEdit.getText();
+                senhaNova = novaEdit.getText();
+                BankingSystem.user = uc.checkIfExistUser(nome, senhaAntiga, senhaNova);
+                if (BankingSystem.user == null) {
+                    throw new NullPointerException();
+                } else {
+                    this.unpop();
                 }
+            } catch (NullPointerException e) {
+                String message = "Tente inserir corretamente os dados";
+                mb = new MessageBox("As senhas não conferem!", message, new String[]{"Ok!"});
+                mb.setRect(CENTER, CENTER, SCREENSIZE + 70, SCREENSIZE + 50);
+                mb.setBackForeColors(Colors.BACKGROUND, Colors.ON_P_300);
+                mb.popup();
             }
-        }
+        });
     }
 }
+

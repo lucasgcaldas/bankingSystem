@@ -1,19 +1,19 @@
-package com.bankingsystem.view;
+package com.bankingsystem;
 
 import com.bankingsystem.controller.AccountController;
 import com.bankingsystem.controller.UserController;
 import com.bankingsystem.model.Account;
 import com.bankingsystem.model.Message;
 import com.bankingsystem.model.User;
-import com.bankingsystem.util.SlideMenu;
 import com.bankingsystem.util.Colors;
 import com.bankingsystem.util.SQLiteConnection;
+import com.bankingsystem.util.SlideMenu;
+import com.bankingsystem.view.Cadastro;
+import com.bankingsystem.view.Password;
 import totalcross.sys.InvalidNumberException;
 import totalcross.sys.Settings;
 import totalcross.ui.*;
 import totalcross.ui.dialog.MessageBox;
-import totalcross.ui.event.ControlEvent;
-import totalcross.ui.event.Event;
 import totalcross.ui.font.Font;
 import totalcross.ui.gfx.Color;
 import totalcross.ui.image.Image;
@@ -21,7 +21,7 @@ import totalcross.util.UnitsConverter;
 
 import java.util.Objects;
 
-public class Login extends MainWindow {
+public class BankingSystem extends MainWindow {
 
     public static Account origin, destiny;
     public static User user;
@@ -38,7 +38,7 @@ public class Login extends MainWindow {
     private MessageBox mb;
     private String senha;
 
-    public Login() {
+    public BankingSystem() {
 //        setUIStyle(Settings.HOLO_UI);
         setUIStyle(Settings.MATERIAL_UI);
         setBackForeColors(Colors.BACKGROUND, Colors.SURFACE);
@@ -135,66 +135,63 @@ public class Login extends MainWindow {
             add(btnCadas, LEFT + 24, BOTTOM - 21, 151, 50);
             add(btnConf, RIGHT - 24, BOTTOM - 21, 151, 50);
 
+            actionButton();
         } catch (Exception e) {
             MessageBox.showException(e, true);
         }
     }
 
-    public void onEvent(Event event) {
-        if (event.type == ControlEvent.PRESSED) {
-            if (event.target == btnConf) {
-                try {
-                    if (!ageEdit.getText().matches("") || !contEdit.getText().matches("") || !passwordEdit.getText().matches("")) {
-                        agencia = Integer.parseInt(ageEdit.getText());
-                        conta = Integer.parseInt(contEdit.getText());
-                        senha = String.valueOf(passwordEdit.getText());
-                    }
-                    Login.origin = ac.checkIfExistAccountToTransfer(agencia, conta);
-                    Login.user = uc.checkIfExistUserWithPassword(senha, conta);
-                    if (Login.user != null) {
-                        if (Login.origin != null) {
-                            if (Objects.equals(senha, Login.user.getPassword())) {
-                                SlideMenu slideMenu = new SlideMenu();
-                                slideMenu.popup();
-                            }
-                        } else {
-                            throw new NullPointerException();
+    public void actionButton() {
+        btnConf.addPressListener((event) -> {
+            try {
+                if (!ageEdit.getText().matches("") || !contEdit.getText().matches("") || !passwordEdit.getText().matches("")) {
+                    agencia = Integer.parseInt(ageEdit.getText());
+                    conta = Integer.parseInt(contEdit.getText());
+                    senha = String.valueOf(passwordEdit.getText());
+                }
+                BankingSystem.origin = ac.checkIfExistAccountToTransfer(agencia, conta);
+                BankingSystem.user = uc.checkIfExistUserWithPassword(senha, conta);
+                if (BankingSystem.user != null) {
+                    if (BankingSystem.origin != null) {
+                        if (Objects.equals(senha, BankingSystem.user.getPassword())) {
+                            SlideMenu slideMenu = new SlideMenu();
+                            slideMenu.popup();
                         }
                     } else {
-                        throw new InvalidNumberException();
+                        throw new NullPointerException();
                     }
-                } catch (NullPointerException e) {
-                    String message = "Tente inserir corretamente os dados da conta";
-                    mb = new MessageBox("Conta não encontrada!", message, new String[]{"Ok!"});
-                    mb.setRect(CENTER, CENTER, SCREENSIZE + 70, SCREENSIZE + 50);
-                    mb.setBackForeColors(Colors.BACKGROUND, Colors.ON_P_300);
-                    mb.popup();
-                } catch (InvalidNumberException e) {
-                    String message = "Tente inserir corretamente a senha ou altere a senha";
-                    mb = new MessageBox("Senha inválida!", message, new String[]{"Ok!"});
-                    mb.setRect(CENTER, CENTER, SCREENSIZE + 70, SCREENSIZE + 50);
-                    mb.setBackForeColors(Colors.BACKGROUND, Colors.ON_P_300);
-                    mb.popup();
-                } catch (NumberFormatException e) {
-                    String message = "Preencha todos os campos com seus dados!";
-                    mb = new MessageBox("Campos vazios!", message, new String[]{"Ok!"});
-                    mb.setRect(CENTER, CENTER, SCREENSIZE + 70, SCREENSIZE + 50);
-                    mb.setBackForeColors(Colors.BACKGROUND, Colors.ON_P_300);
-                    mb.popup();
+                } else {
+                    throw new InvalidNumberException();
                 }
+            } catch (NullPointerException e) {
+                String message = "Tente inserir corretamente os dados da conta";
+                mb = new MessageBox("Conta não encontrada!", message, new String[]{"Ok!"});
+                mb.setRect(CENTER, CENTER, SCREENSIZE + 70, SCREENSIZE + 50);
+                mb.setBackForeColors(Colors.BACKGROUND, Colors.ON_P_300);
+                mb.popup();
+            } catch (InvalidNumberException e) {
+                String message = "Tente inserir corretamente a senha ou altere a senha";
+                mb = new MessageBox("Senha inválida!", message, new String[]{"Ok!"});
+                mb.setRect(CENTER, CENTER, SCREENSIZE + 70, SCREENSIZE + 50);
+                mb.setBackForeColors(Colors.BACKGROUND, Colors.ON_P_300);
+                mb.popup();
+            } catch (NumberFormatException e) {
+                String message = "Preencha todos os campos com seus dados!";
+                mb = new MessageBox("Campos vazios!", message, new String[]{"Ok!"});
+                mb.setRect(CENTER, CENTER, SCREENSIZE + 70, SCREENSIZE + 50);
+                mb.setBackForeColors(Colors.BACKGROUND, Colors.ON_P_300);
+                mb.popup();
             }
-        }
-        if (event.type == ControlEvent.PRESSED) {
-            if (event.target == btnCadas) {
-                Cadastro cadastro = new Cadastro();
-                cadastro.popup();
-            }
-        }
-        if (event.type == ControlEvent.PRESSED) {
-            if (event.target == btnChangePassword) {
-                Password password = new Password();
-                password.popup();
-            }
-        }
+        });
+
+        btnCadas.addPressListener((event) -> {
+            Cadastro cadastro = new Cadastro();
+            cadastro.popup();
+        });
+
+        btnChangePassword.addPressListener((event) -> {
+            Password password = new Password();
+            password.popup();
+        });
     }
 }

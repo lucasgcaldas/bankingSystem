@@ -1,13 +1,11 @@
 package com.bankingsystem.view;
 
+import com.bankingsystem.BankingSystem;
 import com.bankingsystem.controller.AccountController;
-import com.bankingsystem.util.SlideMenu;
 import com.bankingsystem.model.User;
 import com.bankingsystem.util.Colors;
 import totalcross.ui.*;
 import totalcross.ui.dialog.MessageBox;
-import totalcross.ui.event.ControlEvent;
-import totalcross.ui.event.Event;
 import totalcross.ui.font.Font;
 import totalcross.ui.gfx.Color;
 import totalcross.ui.image.Image;
@@ -150,45 +148,45 @@ public class ConfTrans extends Window {
             btnCont.setBorder(BORDER_ROUNDED);
 
             add(btnCont, CENTER, BOTTOM - 21, 252, 50);
+
+            actionButton();
         } catch (Exception e) {
             MessageBox.showException(e, true);
         }
     }
 
-    public void onEvent(Event event) {
-        if (event.type == ControlEvent.PRESSED) {
-            if (event.target == btnImage) {
-                ConfTrans confTrans = new ConfTrans();
-                confTrans.unpop();
-            }
-        }
-        if (event.type == ControlEvent.PRESSED) {
-            if (event.target == btnCont) {
-                try {
-                    if (Login.origin.getBalance().compareTo(valor) >= 0) {
-                        Login.origin.sendTransfer(kindTransfer, valor);
-                        Home.lSaldo.setText("R$ " + Login.origin.getBalance().toString());
-                        Home.lSaldo.repaintNow();
-                        this.unpop();
-                        if (Objects.equals(kindTransfer, "TransferSav")) {
-                            TransferSav transferSav = new TransferSav();
-                            transferSav.unpop();
-                        } else {
-                            TransferChe transferChe = new TransferChe();
-                            transferChe.unpop();
-                        }
-                    } else {
-                        throw new NumberFormatException();
-                    }
+    public void actionButton() {
+        btnImage.addPressListener((event) -> {
+            ConfTrans confTrans = new ConfTrans();
+            confTrans.unpop();
+        });
 
-                } catch (NumberFormatException e) {
-                    String message = "Saldo menor do que a quantidade que está querendo transferir";
-                    mb = new MessageBox("Saldo insuficiente!", message, new String[]{"Ok!"});
-                    mb.setRect(CENTER, CENTER, SCREENSIZE + 70, SCREENSIZE + 50);
-                    mb.setBackForeColors(Colors.BACKGROUND, Colors.ON_P_300);
-                    mb.popup();
+        btnCont.addPressListener((event) -> {
+            try {
+                if (BankingSystem.origin.getBalance().compareTo(valor) >= 0) {
+                    BankingSystem.origin.sendTransfer(kindTransfer, valor);
+                    Home.lSaldo.setText("R$ " + BankingSystem.origin.getBalance().toString());
+                    Home.lSaldo.repaintNow();
+                    this.unpop();
+                    if (Objects.equals(kindTransfer, "TransferSav")) {
+                        TransferSav transferSav = new TransferSav();
+                        transferSav.unpop();
+                    } else {
+                        TransferChe transferChe = new TransferChe();
+                        transferChe.unpop();
+                    }
+                } else {
+                    throw new NumberFormatException();
                 }
+
+            } catch (NumberFormatException e) {
+                String message = "Saldo menor do que a quantidade que está querendo transferir";
+                mb = new MessageBox("Saldo insuficiente!", message, new String[]{"Ok!"});
+                mb.setRect(CENTER, CENTER, SCREENSIZE + 70, SCREENSIZE + 50);
+                mb.setBackForeColors(Colors.BACKGROUND, Colors.ON_P_300);
+                mb.popup();
             }
-        }
+        });
     }
 }
+

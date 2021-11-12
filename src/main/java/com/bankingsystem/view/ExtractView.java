@@ -1,13 +1,11 @@
 package com.bankingsystem.view;
 
+import com.bankingsystem.BankingSystem;
 import com.bankingsystem.controller.ExtractAccountController;
-import com.bankingsystem.util.SlideMenu;
 import com.bankingsystem.model.Extract;
 import com.bankingsystem.util.Colors;
 import totalcross.ui.*;
 import totalcross.ui.dialog.MessageBox;
-import totalcross.ui.event.ControlEvent;
-import totalcross.ui.event.Event;
 import totalcross.ui.font.Font;
 import totalcross.ui.gfx.Color;
 import totalcross.ui.image.Image;
@@ -65,7 +63,7 @@ public class ExtractView extends Window {
             nameLabel.setFont(Font.getFont("Roboto", true, 16));
             nameLabel.setForeColor(Color.DARK);
 
-            setNameLabel = new Label(Login.user.getName());
+            setNameLabel = new Label(BankingSystem.user.getName());
             setNameLabel.setFont(Font.getFont("Roboto", true, 15));
             setNameLabel.setForeColor(Color.DARK);
 
@@ -73,7 +71,7 @@ public class ExtractView extends Window {
             cpfLabel.setFont(Font.getFont("Roboto", true, 16));
             cpfLabel.setForeColor(Color.DARK);
 
-            setCpfLabel = new Label(Login.user.getCpf());
+            setCpfLabel = new Label(BankingSystem.user.getCpf());
             setCpfLabel.setFont(Font.getFont("Roboto", true, 15));
             setCpfLabel.setForeColor(Color.DARK);
 
@@ -81,7 +79,7 @@ public class ExtractView extends Window {
             ageLabel.setFont(Font.getFont("Roboto", true, 16));
             ageLabel.setForeColor(Color.DARK);
 
-            setAgeLabel = new Label(Login.origin.getBranch().toString());
+            setAgeLabel = new Label(BankingSystem.origin.getBranch().toString());
             setAgeLabel.setFont(Font.getFont("Roboto", true, 15));
             setAgeLabel.setForeColor(Color.DARK);
 
@@ -89,7 +87,7 @@ public class ExtractView extends Window {
             contLabel.setFont(Font.getFont("Roboto", true, 16));
             contLabel.setForeColor(Color.DARK);
 
-            setContLabel = new Label(Login.origin.getNumber().toString());
+            setContLabel = new Label(BankingSystem.origin.getNumber().toString());
             setContLabel.setFont(Font.getFont("Roboto", true, 15));
             setContLabel.setForeColor(Color.DARK);
 
@@ -188,18 +186,18 @@ public class ExtractView extends Window {
                 cont2.add(dateLabel, LEFT + 10, AFTER + 10);
                 cont2.add(setDateLabel, SAME, AFTER);
                 cont2.resizeHeight();
+
+                actionButton();
             }
         } catch (Exception e) {
             MessageBox.showException(e, true);
         }
     }
 
-    public void onEvent(Event event) {
-        if (event.type == ControlEvent.PRESSED) {
-            if (event.target == btnImage) {
-                ExtractView extractView = new ExtractView();
-                extractView.unpop();
-            }
-        }
+    public void actionButton() {
+        btnImage.addPressListener((event) -> {
+            ExtractView extractView = new ExtractView();
+            extractView.unpop();
+        });
     }
 }

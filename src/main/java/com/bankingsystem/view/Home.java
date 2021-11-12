@@ -1,14 +1,12 @@
 package com.bankingsystem.view;
 
+import com.bankingsystem.BankingSystem;
 import com.bankingsystem.controller.ExtractAccountController;
 import com.bankingsystem.exceptions.ExtractNotFoundException;
-import com.bankingsystem.util.SlideMenu;
 import com.bankingsystem.model.Extract;
 import com.bankingsystem.util.Colors;
 import totalcross.ui.*;
 import totalcross.ui.dialog.MessageBox;
-import totalcross.ui.event.ControlEvent;
-import totalcross.ui.event.Event;
 import totalcross.ui.font.Font;
 import totalcross.ui.gfx.Color;
 import totalcross.util.UnitsConverter;
@@ -42,7 +40,7 @@ public class Home extends BaseScreen {
             bar2.setBackColor(Colors.PRIMARY);
             add(bar2, LEFT, AFTER, PARENTSIZE, DP + 45);
 
-            lSaldo = new Label("R$ " + Login.origin.getBalance().toString(), LEFT);
+            lSaldo = new Label("R$ " + BankingSystem.origin.getBalance().toString(), LEFT);
             lSaldo.setFont(Font.getFont("Roboto", true, 17));
             lSaldo.setForeColor(Color.WHITE);
             bar2.add(lSaldo, LEFT + 16, AFTER, PARENTSIZE + 50, PREFERRED);
@@ -107,50 +105,46 @@ public class Home extends BaseScreen {
             bar3.add(btnRecar, AFTER + UnitsConverter.toPixels(DP + 18), SAME, 155, 108);
             bar3.add(btnChat, CENTER, AFTER + UnitsConverter.toPixels(DP + 8), 328, 50);
 
+            actionButton();
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    public void onEvent(Event event) {
-        if (event.type == ControlEvent.PRESSED) {
-            if (event.target == btnTransSav) {
-                TransferSav transferSav = new TransferSav(btnTransSav.getText());
-                transferSav.popup();
-            }
-        }
-        if (event.type == ControlEvent.PRESSED) {
-            if (event.target == btnTransChe) {
-                TransferChe transferChe = new TransferChe(btnTransChe.getText());
-                transferChe.popup();
-            }
-        }
-        if (event.type == ControlEvent.PRESSED) {
-            if (event.target == btnChat) {
-                ChatGroup chatGroup = new ChatGroup();
-                chatGroup.popup();
-            }
-        }
-        if (event.type == ControlEvent.PRESSED) {
-            if (event.target == btnExtract) {
-                ExtractAccountController eac = new ExtractAccountController();
-                try {
-                    List<Extract> extractList = eac.checkIfExistExtract();
-                    if (extractList.size() != 0) {
-                        ExtractView extractView = new ExtractView();
-                        extractView.popup();
-                    } else {
-                        throw new ExtractNotFoundException();
-                    }
-                } catch (ExtractNotFoundException e) {
-                    String message = "Função disponível somente após alguma tranferência";
-                    mb = new MessageBox("Extrato inexistente!", message, new String[]{"Ok!"});
-                    mb.setRect(CENTER, CENTER, SCREENSIZE + 70, SCREENSIZE + 50);
-                    mb.setBackForeColors(Colors.BACKGROUND, Colors.ON_P_300);
-                    mb.popup();
+    public void actionButton() {
+        btnTransSav.addPressListener((event) -> {
+            TransferSav transferSav = new TransferSav(btnTransSav.getText());
+            transferSav.popup();
+        });
+
+        btnTransChe.addPressListener((event) -> {
+            TransferChe transferChe = new TransferChe(btnTransChe.getText());
+            transferChe.popup();
+        });
+
+        btnChat.addPressListener((event) -> {
+            ChatGroup chatGroup = new ChatGroup();
+            chatGroup.popup();
+        });
+
+        btnExtract.addPressListener((event) -> {
+            ExtractAccountController eac = new ExtractAccountController();
+            try {
+                List<Extract> extractList = eac.checkIfExistExtract();
+                if (extractList.size() != 0) {
+                    ExtractView extractView = new ExtractView();
+                    extractView.popup();
+                } else {
+                    throw new ExtractNotFoundException();
                 }
+            } catch (ExtractNotFoundException e) {
+                String message = "Função disponível somente após alguma tranferência";
+                mb = new MessageBox("Extrato inexistente!", message, new String[]{"Ok!"});
+                mb.setRect(CENTER, CENTER, SCREENSIZE + 70, SCREENSIZE + 50);
+                mb.setBackForeColors(Colors.BACKGROUND, Colors.ON_P_300);
+                mb.popup();
             }
-        }
+        });
     }
 }
 

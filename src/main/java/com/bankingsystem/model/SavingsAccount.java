@@ -1,6 +1,5 @@
 package com.bankingsystem.model;
 
-import com.bankingsystem.controller.AccountController;
 import totalcross.util.BigDecimal;
 
 public class SavingsAccount extends Account {

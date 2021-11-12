@@ -1,16 +1,14 @@
 package com.bankingsystem.view;
 
+import com.bankingsystem.BankingSystem;
 import com.bankingsystem.controller.AccountController;
 import com.bankingsystem.controller.UserController;
 import com.bankingsystem.exceptions.AccountNotFoundException;
-import com.bankingsystem.util.SlideMenu;
 import com.bankingsystem.model.User;
 import com.bankingsystem.util.Colors;
 import totalcross.sys.InvalidNumberException;
 import totalcross.ui.*;
 import totalcross.ui.dialog.MessageBox;
-import totalcross.ui.event.ControlEvent;
-import totalcross.ui.event.Event;
 import totalcross.ui.font.Font;
 import totalcross.ui.gfx.Color;
 import totalcross.ui.image.Image;
@@ -134,49 +132,49 @@ public class TransferSav extends Window {
             btnCont.setBorder(BORDER_ROUNDED);
 
             add(btnCont, CENTER, BOTTOM - 21, 252, 50);
+
+            actionButton();
         } catch (Exception e) {
             MessageBox.showException(e, true);
         }
     }
 
-    public void onEvent(Event event) {
-        if (event.type == ControlEvent.PRESSED) {
-            if (event.target == btnImage) {
-                TransferSav transferSav = new TransferSav();
-                transferSav.unpop();
-            }
-        }
-        if (event.type == ControlEvent.PRESSED) {
-            if (event.target == btnCont) {
-                try {
-                    agencia = Integer.parseInt(ageEdit.getText());
-                    conta = Integer.parseInt(contEdit.getText());
-                    valor = BigDecimal.valueOf(Double.parseDouble(valEdit.getText()));
-                    Login.destiny = aC.checkIfExistAccountToTransfer(agencia, conta);
-                    User user = uc.checkIfExistUserToTrans(conta);
+    public void actionButton() {
+        btnImage.addPressListener((event) -> {
+            TransferSav transferSav = new TransferSav();
+            transferSav.unpop();
+        });
 
-                    if (Login.destiny.getClass().getName().substring(24).equals("SavingsAccount")) {
-                        ConfTrans confTrans = new ConfTrans(agencia, conta, valor, user, this.getClass().getName().substring(23));
-                        confTrans.popup();
-                    } else {
-                        throw new AccountNotFoundException();
-                    }
-                } catch (NullPointerException e) {
-                    String message = "Tente inserir corretamente a conta poupança";
-                    mb = new MessageBox("Conta inexistente!", message, new String[]{"Ok!"});
-                    mb.setRect(CENTER, CENTER, SCREENSIZE + 70, SCREENSIZE + 50);
-                    mb.setBackForeColors(Colors.BACKGROUND, Colors.ON_P_300);
-                    mb.popup();
-                } catch (AccountNotFoundException e) {
-                    String message = "Tente inserir corretamente a conta poupança ou a conta digitada pode uma ser Conta Corrente";
-                    mb = new MessageBox("Conta não encontrada!", message, new String[]{"Ok!"});
-                    mb.setRect(CENTER, CENTER, SCREENSIZE + 70, SCREENSIZE + 50);
-                    mb.setBackForeColors(Colors.BACKGROUND, Colors.ON_P_300);
-                    mb.popup();
-                } catch (InvalidNumberException e) {
-                    e.printStackTrace();
+        btnCont.addPressListener((event) -> {
+            try {
+                agencia = Integer.parseInt(ageEdit.getText());
+                conta = Integer.parseInt(contEdit.getText());
+                valor = BigDecimal.valueOf(Double.parseDouble(valEdit.getText()));
+                BankingSystem.destiny = aC.checkIfExistAccountToTransfer(agencia, conta);
+                User user = uc.checkIfExistUserToTrans(conta);
+
+                if (BankingSystem.destiny.getClass().getName().substring(24).equals("SavingsAccount")) {
+                    ConfTrans confTrans = new ConfTrans(agencia, conta, valor, user, this.getClass().getName().substring(23));
+                    confTrans.popup();
+                } else {
+                    throw new AccountNotFoundException();
                 }
+            } catch (NullPointerException e) {
+                String message = "Tente inserir corretamente a conta poupança";
+                mb = new MessageBox("Conta inexistente!", message, new String[]{"Ok!"});
+                mb.setRect(CENTER, CENTER, SCREENSIZE + 70, SCREENSIZE + 50);
+                mb.setBackForeColors(Colors.BACKGROUND, Colors.ON_P_300);
+                mb.popup();
+            } catch (AccountNotFoundException e) {
+                String message = "Tente inserir corretamente a conta poupança ou a conta digitada pode uma ser Conta Corrente";
+                mb = new MessageBox("Conta não encontrada!", message, new String[]{"Ok!"});
+                mb.setRect(CENTER, CENTER, SCREENSIZE + 70, SCREENSIZE + 50);
+                mb.setBackForeColors(Colors.BACKGROUND, Colors.ON_P_300);
+                mb.popup();
+            } catch (InvalidNumberException e) {
+                e.printStackTrace();
             }
-        }
+        });
     }
 }
+

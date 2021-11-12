@@ -3,7 +3,6 @@ package com.bankingsystem.util;
 import com.bankingsystem.view.Home;
 import totalcross.ui.*;
 import totalcross.ui.dialog.MessageBox;
-import totalcross.ui.event.ControlEvent;
 import totalcross.ui.event.Event;
 import totalcross.ui.font.Font;
 import totalcross.ui.gfx.Color;
@@ -59,25 +58,21 @@ public class SlideMenu extends Window {
             btnImage2.setBackForeColors(Colors.PRIMARY, Color.WHITE);
             add(btnImage2, RIGHT - 18, TOP + 10);
 
+            actionButton();
         } catch (Exception e) {
             MessageBox.showException(e, true);
         }
     }
 
-    public void onEvent(Event event) {
-        if (event.type == ControlEvent.PRESSED) {
-            if (event.target == btnImage1) {
-                String message = "Você ainda não possui notificações!";
-                mb = new MessageBox("Sem notificações!", message, new String[]{"Ok!"});
-                mb.setRect(CENTER, CENTER, SCREENSIZE + 70, SCREENSIZE + 50);
-                mb.setBackForeColors(Colors.BACKGROUND, Colors.ON_P_300);
-                mb.popup();
-            }
-        }
-        if (event.type == ControlEvent.PRESSED) {
-            if (event.target == btnImage2) {
-                this.unpop();
-            }
-        }
+    public void actionButton() {
+        btnImage1.addPressListener((event) -> {
+            String message = "Você ainda não possui notificações!";
+            mb = new MessageBox("Sem notificações!", message, new String[]{"Ok!"});
+            mb.setRect(CENTER, CENTER, SCREENSIZE + 70, SCREENSIZE + 50);
+            mb.setBackForeColors(Colors.BACKGROUND, Colors.ON_P_300);
+            mb.popup();
+        });
+
+        btnImage2.addPressListener((event) -> this.unpop());
     }
 }

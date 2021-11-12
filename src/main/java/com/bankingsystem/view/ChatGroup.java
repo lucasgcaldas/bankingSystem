@@ -1,7 +1,7 @@
 package com.bankingsystem.view;
 
+import com.bankingsystem.BankingSystem;
 import com.bankingsystem.controller.MessageController;
-import com.bankingsystem.util.SlideMenu;
 import com.bankingsystem.model.Message;
 import com.bankingsystem.util.Colors;
 import totalcross.ui.*;
@@ -94,7 +94,7 @@ public class ChatGroup extends Window {
                     messageLabel.setFont(Font.getFont("Roboto", true, 15));
                     messageDescription = messageEdit.getText();
 
-                    if (Objects.equals(message.getUser().getName(), Login.user.getName())) {
+                    if (Objects.equals(message.getUser().getName(), BankingSystem.user.getName())) {
                         mesContainer = new Container();
                         mesContainer.setBackForeColors(Colors.PRIMARY, Colors.ON_SURFACE);
                         mesContainer.setBorderStyle(BORDER_ROUNDED);
@@ -126,65 +126,60 @@ public class ChatGroup extends Window {
                     mesContainer.resizeHeight();
                 }
             }
+            actionButton();
         } catch (Exception e) {
             MessageBox.showException(e, true);
         }
     }
 
-    @Override
-    public void onEvent(Event event) {
-        if (event.type == ControlEvent.PRESSED) {
-            if (event.target == btnImage) {
-                this.unpop();
-            }
-        }
-        if (event.type == ControlEvent.PRESSED) {
-            if (event.target == btnSendMes) {
-                messageDescription = messageEdit.getText();
-                messageEdit.clear();
+    public void actionButton() {
+        btnImage.addPressListener((event) -> this.unpop());
 
-                Login.message = new Message();
-                Login.message.setUser(Login.user);
-                Login.message.setAccount(Login.origin);
-                Login.message.setHour(sdf.format(date));
-                Login.message.setMessageDescription(messageDescription);
-                mc.saveMessage(Login.message);
+        btnSendMes.addPressListener((event) -> {
+            messageDescription = messageEdit.getText();
+            messageEdit.clear();
 
-                mesContainer = new Container();
-                mesContainer.setBackForeColors(Colors.PRIMARY, Colors.ON_SURFACE);
-                mesContainer.setBorderStyle(BORDER_ROUNDED);
-                mesContainer.borderColor = 0xD1D1D1;
+            BankingSystem.message = new Message();
+            BankingSystem.message.setUser(BankingSystem.user);
+            BankingSystem.message.setAccount(BankingSystem.origin);
+            BankingSystem.message.setHour(sdf.format(date));
+            BankingSystem.message.setMessageDescription(messageDescription);
+            mc.saveMessage(BankingSystem.message);
 
-                nameLabel = new Label(Login.message.getUser().getName());
-                nameLabel.setFont(Font.getFont("Roboto", true, 15));
-                nameLabel.setForeColor(Color.WHITE);
+            mesContainer = new Container();
+            mesContainer.setBackForeColors(Colors.PRIMARY, Colors.ON_SURFACE);
+            mesContainer.setBorderStyle(BORDER_ROUNDED);
+            mesContainer.borderColor = 0xD1D1D1;
 
-                accNumberLabel = new Label(Login.message.getAccount().getNumber().toString());
-                accNumberLabel.setFont(Font.getFont("Roboto", true, 15));
-                accNumberLabel.setForeColor(Color.WHITE);
+            nameLabel = new Label(BankingSystem.message.getUser().getName());
+            nameLabel.setFont(Font.getFont("Roboto", true, 15));
+            nameLabel.setForeColor(Color.WHITE);
 
-                hourLabel = new Label(Login.message.getHour().substring(11));
-                hourLabel.setFont(Font.getFont("Roboto", true, 15));
-                hourLabel.setForeColor(Color.WHITE);
+            accNumberLabel = new Label(BankingSystem.message.getAccount().getNumber().toString());
+            accNumberLabel.setFont(Font.getFont("Roboto", true, 15));
+            accNumberLabel.setForeColor(Color.WHITE);
 
-                dateLabel = new Label(Login.message.getHour().substring(0, 11));
-                dateLabel.setFont(Font.getFont("Roboto", true, 15));
-                dateLabel.setForeColor(Color.WHITE);
+            hourLabel = new Label(BankingSystem.message.getHour().substring(11));
+            hourLabel.setFont(Font.getFont("Roboto", true, 15));
+            hourLabel.setForeColor(Color.WHITE);
 
-                messageLabel = new Label(messageDescription);
-                messageLabel.setFont(Font.getFont("Roboto", true, 15));
-                messageLabel.setForeColor(Color.WHITE);
+            dateLabel = new Label(BankingSystem.message.getHour().substring(0, 11));
+            dateLabel.setFont(Font.getFont("Roboto", true, 15));
+            dateLabel.setForeColor(Color.WHITE);
 
-                bar2.add(mesContainer, CENTER, AFTER + 10, PARENTSIZE, PARENTSIZE);
+            messageLabel = new Label(messageDescription);
+            messageLabel.setFont(Font.getFont("Roboto", true, 15));
+            messageLabel.setForeColor(Color.WHITE);
 
-                mesContainer.add(nameLabel, LEFT + 5, TOP);
-                mesContainer.add(accNumberLabel, RIGHT - 5, SAME);
-                mesContainer.add(messageLabel, LEFT + 5, AFTER);
-                mesContainer.add(hourLabel, RIGHT - 5, AFTER);
-                mesContainer.add(dateLabel, LEFT + 5, SAME);
-                mesContainer.resizeHeight();
-            }
-        }
+            bar2.add(mesContainer, CENTER, AFTER + 10, PARENTSIZE, PARENTSIZE);
+
+            mesContainer.add(nameLabel, LEFT + 5, TOP);
+            mesContainer.add(accNumberLabel, RIGHT - 5, SAME);
+            mesContainer.add(messageLabel, LEFT + 5, AFTER);
+            mesContainer.add(hourLabel, RIGHT - 5, AFTER);
+            mesContainer.add(dateLabel, LEFT + 5, SAME);
+            mesContainer.resizeHeight();
+        });
     }
 }
 

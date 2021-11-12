@@ -2,7 +2,7 @@ package com.bankingsystem.controller;
 
 import com.bankingsystem.model.Extract;
 import com.bankingsystem.util.SQLiteConnection;
-import com.bankingsystem.view.Login;
+import com.bankingsystem.BankingSystem;
 import totalcross.sql.PreparedStatement;
 import totalcross.sql.ResultSet;
 
@@ -29,13 +29,13 @@ public class ExtractAccountController extends SQLiteConnection {
                 preparedStatement.setString(1, "Transferência Corrente");
             }
             preparedStatement.setString(2, extract.getUser().getName());
-            preparedStatement.setInt(3, Login.origin.getBranch());
-            preparedStatement.setInt(4, Login.origin.getNumber());
+            preparedStatement.setInt(3, BankingSystem.origin.getBranch());
+            preparedStatement.setInt(4, BankingSystem.origin.getNumber());
             preparedStatement.setBigDecimal(5, extract.getValue());
             preparedStatement.setString(6, extract.getUserDestiny().getName());
-            Login.destiny = ac.checkIfExistAccount(conta);
-            preparedStatement.setInt(7, Login.destiny.getBranch());
-            preparedStatement.setInt(8, Login.destiny.getNumber());
+            BankingSystem.destiny = ac.checkIfExistAccount(conta);
+            preparedStatement.setInt(7, BankingSystem.destiny.getBranch());
+            preparedStatement.setInt(8, BankingSystem.destiny.getNumber());
             preparedStatement.setString(9, extract.getDate());
 
             preparedStatement.executeUpdate();
@@ -53,13 +53,13 @@ public class ExtractAccountController extends SQLiteConnection {
                     " WHERE number = ?";
             PreparedStatement preparedStatement = util.con().prepareStatement(sql);
 
-            preparedStatement.setBigDecimal(1, Login.origin.getBalance());
-            preparedStatement.setInt(2, Login.origin.getNumber());
+            preparedStatement.setBigDecimal(1, BankingSystem.origin.getBalance());
+            preparedStatement.setInt(2, BankingSystem.origin.getNumber());
 
             preparedStatement.executeUpdate();
 
-            preparedStatement.setBigDecimal(1, Login.destiny.getBalance());
-            preparedStatement.setInt(2, Login.destiny.getNumber());
+            preparedStatement.setBigDecimal(1, BankingSystem.destiny.getBalance());
+            preparedStatement.setInt(2, BankingSystem.destiny.getNumber());
 
             preparedStatement.executeUpdate();
 
@@ -76,7 +76,7 @@ public class ExtractAccountController extends SQLiteConnection {
             ResultSet rs = preparedStatement.executeQuery();
 
             while (rs.next()) {
-                if (Objects.equals(rs.getString("user"), Login.user.getName()) && rs.getInt("ori_number") == Login.origin.getNumber()) {
+                if (Objects.equals(rs.getString("user"), BankingSystem.user.getName()) && rs.getInt("ori_number") == BankingSystem.origin.getNumber()) {
                     Extract extract = new Extract();
                     extract.setUser(uc.checkIfExistUserToMessage(rs.getString("user")));
                     extract.setUserDestiny(uc.checkIfExistUserToMessage(rs.getString("user_destiny")));
